@@ -5,7 +5,22 @@ export const fetchCurrentUser = createAsyncThunk(
     "auth/fetchCurrentUser",
     async()=>{
         const res = await axios.get("/v1/users/current-user", {withCredentials : true});
-        return res.data.data;
+        return res.data.message;
+    }
+)
+
+export const loginUser = createAsyncThunk(
+    "auth/loginUser",
+    async({email, userName, password})=>{
+        const res = await axios.post("/v1/users/login",{email, userName, password}, {withCredentials: true});
+        return res.data.message;  // acts as payload for extraReducer
+    }
+)
+
+export const logoutUser = createAsyncThunk(
+    "auth/logoutUser",
+    async()=>{
+        const res = await axios.post("/v1/users/logout", {}, {withCredentials: true});
     }
 )
 
