@@ -6,7 +6,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router()
 
-router.route("/register").post(
+/* router.route("/register").post(
     Upload.fields([                  // to use multer for file uploads - as a middleware
         {
             name : "avatar",
@@ -18,7 +18,24 @@ router.route("/register").post(
         }
     ]),
     registerUser
-)
+) */
+
+router.route("/register").post(
+  Upload.fields([
+    { name: "avatar", maxCount: 1 },
+    { name: "coverImage", maxCount: 1 }
+  ]),
+  (err, req, res, next) => {
+    if (err) {
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        return res.status(413).json({ error: "File too large (max 5MB)" });
+      }
+      return res.status(400).json({ error: err.message });
+    }
+    next();
+  },
+  registerUser
+);
 router.route("/login").post(loginUser)
 
 //secured routes
