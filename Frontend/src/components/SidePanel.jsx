@@ -6,101 +6,125 @@ import { HiPencilSquare } from "react-icons/hi2";
 import { CgPlayList } from "react-icons/cg";
 import { MdDashboard } from "react-icons/md";
 import { TbUpload } from "react-icons/tb";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { MdSettings } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import Popup from "./Popup.jsx";
 
 function SidePanel() {
 
+    const navigate = useNavigate();
+
+    const isAuthenticated = useSelector((state)=>state.auth.isLoggedIn);
+
+    const [popup, setPopup] =useState(false);
+
+    const handleClick = (e)=>(featurePath)=>{
+
+            if(!isAuthenticated){
+                setPopup(true);
+            }
+            else{
+                setPopup(false);
+                navigate(featurePath);
+            }
+    }
+
   return (
     <div>
+        {popup && (
+            <Popup onClose={() => setPopup(false)} />
+        )}       
+
         <div className='h-full w-70  shadow sticky z-40 bg-[#121212] flex flex-col'>
 
             {/* upper section of side panel */}
             <section className='px-6 py-2 flex flex-col gap-6 flex-1 overflow-y-auto'>
-                <NavLink className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
+                <NavLink to='/Home' onClick={handleClick('/Home')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
                 ${
                     isActive ? "text-gray-300" : "text-gray-500"
                 }`}>
-                    <button className='flex items-center gap-6 cursor-pointer'>
+                    <div className='flex items-center gap-6 cursor-pointer'>
                         <IoMdHome className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Home</span>
-                    </button>
+                    </div>
                 </NavLink>
-                <NavLink  className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
+                <NavLink  to='/my-channel' onClick={handleClick('/my-channel')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
                 ${
                     isActive ? "text-gray-300" : "text-gray-500"
                 }`}>
-                    <button className='flex items-center gap-6 cursor-pointer'>
+                    <div className='flex items-center gap-6 cursor-pointer'>
                         <RiAccountCircleFill className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>My Channel</span>
-                    </button>
+                    </div>
                 </NavLink>
-                <NavLink className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
+                <NavLink to='/watch-history' onClick={handleClick('/watch-history')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
                 ${
                     isActive ? "text-gray-300" : "text-gray-500"
                 }`}>
-                    <button className='flex items-center gap-6 cursor-pointer'>
+                    <div className='flex items-center gap-6 cursor-pointer'>
                         <RiHistoryLine className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Watch History</span>
-                    </button>
+                    </div>
                 </NavLink>
-                <NavLink className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
+                <NavLink to='/community-posts' onClick={handleClick('/community-posts')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
                 ${
                     isActive ? "text-gray-300" : "text-gray-500"
                 }`}>
-                    <button className='flex items-center gap-6 cursor-pointer'>
+                    <div className='flex items-center gap-6 cursor-pointer'>
                         <AiFillMessage className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Community Posts</span>
-                    </button>
+                    </div>
                 </NavLink>
-                <NavLink className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
+                <NavLink to='/my-comments' onClick={handleClick('/my-comments')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
                 ${
                     isActive ? "text-gray-300" : "text-gray-500"
                 }`}>
-                    <button className='flex items-center gap-6 cursor-pointer'>
+                    <div className='flex items-center gap-6 cursor-pointer'>
                         <HiPencilSquare className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>My Comments</span>
-                    </button>
+                    </div>
                 </NavLink>
-                <NavLink className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
+                <NavLink to='/playlists' onClick={handleClick('/playlists')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
                 ${
                     isActive ? "text-gray-300" : "text-gray-500"
                 }`}>
-                    <button className='flex items-center gap-6 cursor-pointer'>
+                    <div className='flex items-center gap-6 cursor-pointer'>
                         <CgPlayList  className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Playlists</span>
-                    </button>
+                    </div>
                 </NavLink>
-                <NavLink className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
+                <NavLink to='/dashboard' onClick={handleClick('/dashboard')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
                 ${
                     isActive ? "text-gray-300" : "text-gray-500"
                 }`}>
-                    <button className='flex items-center gap-6 cursor-pointer'>
+                    <div className='flex items-center gap-6 cursor-pointer'>
                         <MdDashboard  className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Dashboard</span>
-                    </button>
+                    </div>
                 </NavLink>
-                <NavLink className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
+                <NavLink to='/upload-video' onClick={handleClick('/upload-video')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
                 ${
                     isActive ? "text-gray-300" : "text-gray-500"
                 }`}>
-                    <button className='flex items-center gap-6 cursor-pointer'>
+                    <div className='flex items-center gap-6 cursor-pointer'>
                         <TbUpload  className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Upload Video</span>
-                    </button>
+                    </div>
                 </NavLink>
             </section>
 
             {/* lower section of side panel */}
             <section className='px-6 py-2 flex flex-col gap-6'>
-                <NavLink className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
+                <NavLink to='/settings' onClick={handleClick('/settings')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
                 ${
                     isActive ? "text-gray-300" : "text-gray-500"
                 }`}>
-                    <button className='flex items-center gap-6 cursor-pointer'>
+                    <div className='flex items-center gap-6 cursor-pointer'>
                         <MdSettings  className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Settings</span>
-                    </button>
+                    </div>
                 </NavLink>
                 <div>
                     <label className="relative inline-flex items-center">
