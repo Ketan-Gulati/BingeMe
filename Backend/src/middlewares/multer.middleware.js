@@ -1,4 +1,4 @@
-/* import multer from "multer";
+import multer from "multer";
 import path from "path"
 
 
@@ -18,9 +18,9 @@ const storage = multer.diskStorage({
 export const Upload = multer({
     storage:storage,
 })
- */
 
-import multer from 'multer';
+
+/* import multer from 'multer';
 import path from 'path';
 
 const storage = multer.diskStorage({
@@ -47,4 +47,4 @@ const Upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 } // 5MB
 });
 
-export { Upload };
+export { Upload }; */

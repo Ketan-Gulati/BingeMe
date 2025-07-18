@@ -10,7 +10,7 @@ function Layout() {
           <Header/>
           <div className='flex flex-1 overflow-hidden'>
             <SidePanel/>
-            <main className='flex-1 overflow-y-auto'>
+            <main className='flex-1 overflow-y-auto bg-[#1E1E1E]'>
               <Outlet/>
             </main>
           </div>

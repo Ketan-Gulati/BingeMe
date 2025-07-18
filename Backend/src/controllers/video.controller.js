@@ -4,31 +4,38 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
-//
+
+
 
 const getAllVideos = asyncHandler(async (req, res) => {
   const {
-    page = 1,
-    limit = 10,
-    query = "",
     sortBy = "createdAt",
     sortType = "desc",
-    userId,
+    page = 1,
+    limit = 5,
+    searchQuery = "",
   } = req.query;
 
-  if (!req.user) {
-    throw new ApiError(401, "User needs to be logged in");
+  const match = {};
+
+  if (searchQuery) {
+    match.$or = [
+      { title: { $regex: searchQuery, $options: "i" } },
+      { description: { $regex: searchQuery, $options: "i" } },
+    ];
   }
 
-  const match = {
-    ...(query ? { title: { $regex: query, $options: "i" } } : {}),
-    ...(userId ? { owner: mongoose.Types.ObjectId(userId) } : {}),
+  const sortOption = {
+    [sortBy]: sortType === "desc" ? -1 : 1,
   };
 
-  const videos = await Video.aggregate( [
-    {
-      $match: match,
-    },
+  const options = {
+    page: parseInt(page),
+    limit: parseInt(limit),
+  };
+
+  const aggregateQuery = Video.aggregate([
+    { $match: match },
     {
       $lookup: {
         from: "user",
@@ -47,37 +54,25 @@ const getAllVideos = asyncHandler(async (req, res) => {
         views: 1,
         isPublished: 1,
         createdAt: 1,
-        owner: {
-          $arrayElemAt: ["$videosByOwner", 0],
-        },
+        owner: { $arrayElemAt: ["$videosByOwner", 0] },
       },
     },
-    {
-      $sort: {
-        [sortBy]: sortType === "desc" ? -1 : 1,
-      },
-    },
+    { $sort: sortOption },
   ]);
 
-  const options = {
-    page: parseInt(page),
-    limit: parseInt(limit),
-    customLabels: {
-      totalDocs: "totalVideos",
-      docs: "videos",
-    },
-  };
+  const result = await Video.aggregatePaginate(aggregateQuery, options);
 
-  const result = await Video.aggregatePaginate(Video.aggregate(videos), options);
-
-  if (!result.videos.length) {
+  if (!result.docs || result.docs.length === 0) {
     throw new ApiError(404, "No videos found");
   }
 
   return res
-    .status(200)
-    .json(new ApiResponse(200, result, "Videos fetched successfully"));
+  .status(200)
+  .json(new ApiResponse(200, {videos: result.docs, totalVideos: result.totalDocs, totalPages: result.totalPages, currentPage: result.page} , "Videos fetched successfully"));
 });
+
+
+
 
 //status : working
 const publishAVideo = asyncHandler(async (req, res) => {

@@ -39,7 +39,7 @@ function SignIn() {
       <div className='flex flex-col items-center'>
         <span className='font-bold'>sample login details:-</span>
         <p>email: user@user.com</p>
-        <p>password :1234567890</p>
+        <p>password: 1234567890</p>
       </div>
       <div className="min-h-screen flex flex-col gap-4 items-center justify-center bg-gray-100 px-4">
         <form

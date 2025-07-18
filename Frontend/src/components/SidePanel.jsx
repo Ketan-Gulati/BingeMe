@@ -11,6 +11,7 @@ import { MdSettings } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import Popup from "./Popup.jsx";
 import { hidePopup, showPopup } from "../Redux/slice/popupSlice.js";
+import clsx from 'clsx'; // Import clsx
 
 function SidePanel() {
 
@@ -22,13 +23,13 @@ function SidePanel() {
     const popup = useSelector((state)=>state.popup.isVisible)
 
     const handleClick =(featurePath)=>(e)=>{
-            e.preventDefault();
+            // e.preventDefault();
             if(!isAuthenticated){
                 dispatch(showPopup());
             }
             else{
                 dispatch(hidePopup());
-                navigate(featurePath);
+                // navigate(featurePath); // You might want to uncomment this if you intend to navigate on successful authentication
             }
     }
 
@@ -43,73 +44,89 @@ function SidePanel() {
             {/* upper section of side panel */}
             <section className='px-6 py-2 flex flex-col gap-6 flex-1 overflow-y-auto'>
                 {/* home is public route so no need for running handleClick() for it*/}
-                <NavLink to='/Home' className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0        
-                ${                                                
-                    isActive ? "text-gray-300" : "text-gray-500"
-                }`}>
+                <NavLink to='/Home' className={({isActive})=>
+                    clsx(
+                        'duration-200 border-b border-gray-500 lg:border-0',
+                        isActive ? 'text-gray-300' : 'text-gray-500'
+                    )
+                } end>
                     <div className='flex items-center gap-6 cursor-pointer'>
                         <IoMdHome className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Home</span>
                     </div>
                 </NavLink>
-                <NavLink  to='/my-channel' onClick={handleClick('/my-channel')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
-                ${
-                    isActive ? "text-gray-300" : "text-gray-500"
-                }`}>
+                <NavLink  to='/my-channel' onClick={handleClick('/my-channel')} className={({isActive})=>
+                    clsx(
+                        'duration-200 border-b border-gray-500 lg:border-0',
+                        isActive ? 'text-gray-300' : 'text-gray-500'
+                    )
+                } end>
                     <div className='flex items-center gap-6 cursor-pointer'>
                         <RiAccountCircleFill className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>My Channel</span>
                     </div>
                 </NavLink>
-                <NavLink to='/watch-history' onClick={handleClick('/watch-history')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
-                ${
-                    isActive ? "text-gray-300" : "text-gray-500"
-                }`}>
+                <NavLink to='/watch-history' onClick={handleClick('/watch-history')} className={({isActive})=>
+                    clsx(
+                        'duration-200 border-b border-gray-500 lg:border-0',
+                        isActive ? 'text-gray-300' : 'text-gray-500'
+                    )
+                } end>
                     <div className='flex items-center gap-6 cursor-pointer'>
                         <RiHistoryLine className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Watch History</span>
                     </div>
                 </NavLink>
-                <NavLink to='/community-posts' onClick={handleClick('/community-posts')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
-                ${
-                    isActive ? "text-gray-300" : "text-gray-500"
-                }`}>
+                <NavLink to='/community-posts' onClick={handleClick('/community-posts')} className={({isActive})=>
+                    clsx(
+                        'duration-200 border-b border-gray-500 lg:border-0',
+                        isActive ? 'text-gray-300' : 'text-gray-500'
+                    )
+                } end>
                     <div className='flex items-center gap-6 cursor-pointer'>
                         <AiFillMessage className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Community Posts</span>
                     </div>
                 </NavLink>
-                <NavLink to='/my-comments' onClick={handleClick('/my-comments')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
-                ${
-                    isActive ? "text-gray-300" : "text-gray-500"
-                }`}>
+                <NavLink to='/my-comments' onClick={handleClick('/my-comments')} className={({isActive})=>
+                    clsx(
+                        'duration-200 border-b border-gray-500 lg:border-0',
+                        isActive ? 'text-gray-300' : 'text-gray-500'
+                    )
+                } end>
                     <div className='flex items-center gap-6 cursor-pointer'>
                         <HiPencilSquare className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>My Comments</span>
                     </div>
                 </NavLink>
-                <NavLink to='/playlists' onClick={handleClick('/playlists')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
-                ${
-                    isActive ? "text-gray-300" : "text-gray-500"
-                }`}>
+                <NavLink to='/playlists' onClick={handleClick('/playlists')} className={({isActive})=>
+                    clsx(
+                        'duration-200 border-b border-gray-500 lg:border-0',
+                        isActive ? 'text-gray-300' : 'text-gray-500'
+                    )
+                } end>
                     <div className='flex items-center gap-6 cursor-pointer'>
                         <CgPlayList  className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Playlists</span>
                     </div>
                 </NavLink>
-                <NavLink to='/dashboard' onClick={handleClick('/dashboard')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
-                ${
-                    isActive ? "text-gray-300" : "text-gray-500"
-                }`}>
+                <NavLink to='/dashboard' onClick={handleClick('/dashboard')} className={({isActive})=>
+                    clsx(
+                        'duration-200 border-b border-gray-500 lg:border-0',
+                        isActive ? 'text-gray-300' : 'text-gray-500'
+                    )
+                } end>
                     <div className='flex items-center gap-6 cursor-pointer'>
                         <MdDashboard  className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Dashboard</span>
                     </div>
                 </NavLink>
-                <NavLink to='/upload-video' onClick={handleClick('/upload-video')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
-                ${
-                    isActive ? "text-gray-300" : "text-gray-500"
-                }`}>
+                <NavLink to='/upload-video' onClick={handleClick('/upload-video')} className={({isActive})=>
+                    clsx(
+                        'duration-200 border-b border-gray-500 lg:border-0',
+                        isActive ? 'text-gray-300' : 'text-gray-500'
+                    )
+                } end>
                     <div className='flex items-center gap-6 cursor-pointer'>
                         <TbUpload  className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Upload Video</span>
@@ -119,10 +136,12 @@ function SidePanel() {
 
             {/* lower section of side panel */}
             <section className='px-6 py-2 flex flex-col gap-6'>
-                <NavLink to='/settings' onClick={handleClick('/settings')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
-                ${
-                    isActive ? "text-gray-300" : "text-gray-500"
-                }`}>
+                <NavLink to='/settings' onClick={handleClick('/settings')} className={({isActive})=>
+                    clsx(
+                        'duration-200 border-b border-gray-500 lg:border-0',
+                        isActive ? 'text-gray-300' : 'text-gray-500'
+                    )
+                } end>
                     <div className='flex items-center gap-6 cursor-pointer'>
                         <MdSettings  className='text-white  size-8'/>
                         <span className='text-white font-medium text-[14px]'>Settings</span>
@@ -136,7 +155,7 @@ function SidePanel() {
                             Switch to light mode
                         </span>
                     </label>
-                   
+
                 </div>
 
             </section>
@@ -146,4 +165,3 @@ function SidePanel() {
 }
 
 export default SidePanel
-
