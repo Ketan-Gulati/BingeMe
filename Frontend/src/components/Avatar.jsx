@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser,logout } from '../Redux/slice/authSlice';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 function Avatar() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +15,8 @@ function Avatar() {
     try {
         await dispatch(logoutUser()).unwrap();
         dispatch(logout());
+        navigate("/");
+        window.location.reload();
     } catch (error) {
         console.error("Logout failed: ",error);
     }

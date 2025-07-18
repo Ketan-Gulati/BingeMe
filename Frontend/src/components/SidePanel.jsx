@@ -36,7 +36,10 @@ function SidePanel() {
   return (
     <div>
         {popup && (
-            <Popup onClose={() => dispatch(hidePopup())} />
+            <Popup onClose={() => {
+                dispatch(hidePopup());
+                navigate("/");      // so that when we close the popup we are navigated to home page and not stay at any other page
+            }} />
         )}       
 
         <div className='h-full w-70  shadow sticky z-40 bg-[#121212] flex flex-col'>
