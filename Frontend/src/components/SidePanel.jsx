@@ -8,9 +8,9 @@ import { MdDashboard } from "react-icons/md";
 import { TbUpload } from "react-icons/tb";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { MdSettings } from "react-icons/md";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Popup from "./Popup.jsx";
+import { hidePopup, showPopup } from "../Redux/slice/popupSlice.js";
 
 function SidePanel() {
 
@@ -18,15 +18,16 @@ function SidePanel() {
 
     const isAuthenticated = useSelector((state)=>state.auth.isLoggedIn);
 
-    const [popup, setPopup] =useState(false);
+    const dispatch = useDispatch();
+    const popup = useSelector((state)=>state.popup.isVisible)
 
-    const handleClick = (e)=>(featurePath)=>{
-
+    const handleClick =(featurePath)=>(e)=>{
+            e.preventDefault();
             if(!isAuthenticated){
-                setPopup(true);
+                dispatch(showPopup());
             }
             else{
-                setPopup(false);
+                dispatch(hidePopup());
                 navigate(featurePath);
             }
     }
@@ -34,15 +35,16 @@ function SidePanel() {
   return (
     <div>
         {popup && (
-            <Popup onClose={() => setPopup(false)} />
+            <Popup onClose={() => dispatch(hidePopup())} />
         )}       
 
         <div className='h-full w-70  shadow sticky z-40 bg-[#121212] flex flex-col'>
 
             {/* upper section of side panel */}
             <section className='px-6 py-2 flex flex-col gap-6 flex-1 overflow-y-auto'>
-                <NavLink to='/Home' onClick={handleClick('/Home')} className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0 
-                ${
+                {/* home is public route so no need for running handleClick() for it*/}
+                <NavLink to='/Home' className={({isActive})=>`duration-200 border-b border-gray-500 lg:border-0        
+                ${                                                
                     isActive ? "text-gray-300" : "text-gray-500"
                 }`}>
                     <div className='flex items-center gap-6 cursor-pointer'>
@@ -144,3 +146,4 @@ function SidePanel() {
 }
 
 export default SidePanel
+
