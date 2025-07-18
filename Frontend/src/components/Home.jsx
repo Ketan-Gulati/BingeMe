@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import VideoCard from './VideoCard';
 import ErrorBox from './ErrorBox';
+import Loading from './Loading';
 
 function Home() {
   const [videos, setVideos] = useState({ videos: [], currentPage: null });
@@ -28,8 +29,9 @@ function Home() {
   },[]);
 
   return (
-    <div className='px-5'>
-      {loading && <p className="text-white">Loading...</p>}
+    <div className='p-5'>
+      {/* created a separate loading component for better UI */}
+      {loading && <Loading isVideo={true}/>}    
       {error && <ErrorBox/>}
       <div  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> 
         {videos.videos?.map((video)=>(<VideoCard key={video._id} thumbnail={video.thumbnail} title={video.title} duration={video.duration} views={video.views} createdAt={video.createdAt}/>))}
