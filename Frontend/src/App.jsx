@@ -14,13 +14,18 @@ import UploadVideo from './pages/UploadVideo.jsx'
 import Settings from './pages/Settings.jsx'
 import Layout from './layouts/Layout.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import AuthInitializer from './components/AuthInitializer.jsx';
 
 function App() {
 
   const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout/>,
+    element: (
+      <AuthInitializer>
+        <Layout/>
+      </AuthInitializer>
+    ),
     children: [
       {
       path: "/",

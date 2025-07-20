@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useId, useState } from 'react';
+import {Navigate, useLocation} from 'react-router-dom'
 
 function UploadVideo() {
   const id = useId();
+  const location = useLocation();
   
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -21,12 +23,13 @@ function UploadVideo() {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('video', video);
+    formData.append('videoFile', video);
     if (thumbnail) formData.append('thumbnail', thumbnail);
 
     try {
-      const res = await axios.post('/v1/videos/', formData, {
-        headers: { "Content-Type": "multipart/form-data" }
+      const res = await axios.post('/v1/videos/publish-video', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        withCredentials:true
       });
       alert("Video uploaded successfully!");
       // Reset form after successful upload

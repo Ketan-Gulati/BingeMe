@@ -3,11 +3,24 @@ import React, { useEffect, useState } from 'react';
 import VideoCard from './VideoCard';
 import ErrorBox from './ErrorBox';
 import Loading from './Loading';
+import { useLocation } from 'react-router-dom';
+import  {useDispatch, useSelector} from 'react-redux'
+import { showPopup } from '../Redux/slice/popupSlice';
 
 function Home() {
   const [videos, setVideos] = useState({ videos: [], currentPage: null });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    // Show popup only if redirected from protected route
+    if (location.state?.from && !isLoggedIn) {
+      dispatch(showPopup());
+    }
+  }, [location, isLoggedIn, dispatch]);
 
   useEffect(()=>{
     const fetchVideos = async()=>{
