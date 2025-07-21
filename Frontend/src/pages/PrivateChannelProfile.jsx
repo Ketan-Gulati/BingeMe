@@ -82,25 +82,25 @@ const PrivateChannelProfile = () => {
 
           {/* Channel Metadata */}
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-red-500">{channelData.fullName}</h1>
-            <p className="text-gray-800">@{channelData.userName}</p>
+            <h1 className="text-2xl font-bold text-white [text-shadow:_1px_1px_2px_black]">{channelData.fullName}</h1>
+            <p className="text-white/90 drop-shadow-md">@{channelData.userName}</p>
             
             <div className="flex flex-wrap gap-6 mt-4">
               <div className="flex flex-col">
                 <span className="font-semibold">{formatNumber(channelData.totalSubscribers)}</span>
-                <span className="text-gray-400 text-sm">Subscribers</span>
+                <span className="text-white [text-shadow:_0_0_8px_rgba(0,0,0,0.8)] text-sm">Subscribers</span>
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold">{formatNumber(channelData.totalVideos)}</span>
-                <span className="text-gray-400 text-sm">Videos</span>
+                <span className="text-white [text-shadow:_0_0_8px_rgba(0,0,0,0.8)] text-sm">Videos</span>
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold">{formatNumber(channelData.totalViews)}</span>
-                <span className="text-gray-400 text-sm">Views</span>
+                <span className="text-white [text-shadow:_0_0_8px_rgba(0,0,0,0.8)] text-sm">Views</span>
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold">{formatNumber(channelData.totalLikes)}</span>
-                <span className="text-gray-400 text-sm">Likes</span>
+                <span className="text-white [text-shadow:_0_0_8px_rgba(0,0,0,0.8)] text-sm">Likes</span>
               </div>
             </div>
           </div>

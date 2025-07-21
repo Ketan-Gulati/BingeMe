@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function VideoCard({ id, thumbnail, title, duration, views, owner, createdAt }) {
 
@@ -47,7 +48,8 @@ function VideoCard({ id, thumbnail, title, duration, views, owner, createdAt }) 
     return count;
   };
 
-  const handleClick = ()=>{
+  const handleClick = async()=>{
+    await axios.patch(`/v1/videos/${id}`)
     navigate(`/video/${id}`)
   }
 
