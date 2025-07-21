@@ -1,9 +1,116 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+;
+import { Link } from 'react-router-dom';
+import Loading from '../components/Loading';
 
 function MyComments() {
+  const [loading, setLoading] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await axios.get('/v1/comments/get-comments');
+        setComments(res.data.message.comments);
+      } catch (error) {
+        console.error("Failed to fetch comments: ", error);
+        setError("Failed to load comments. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchComments();
+  }, []);
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loading/>      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen text-red-500">
+        {error}
+      </div>
+    );
+  }
+
   return (
-    <div>MyComments</div>
-  )
+    <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-2xl md:text-3xl font-bold mb-8">My Comments</h1>
+        
+        {comments?.length === 0 ? (
+          <div className="bg-gray-800 rounded-lg p-8 text-center">
+            <h3 className="text-xl font-medium mb-2">No comments yet</h3>
+            <p className="text-gray-400">Your comments will appear here</p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {comments.map((comment) => (
+              <div 
+                key={comment._id} 
+                className="bg-gray-800 rounded-lg p-4 md:p-6 hover:bg-gray-700 transition-colors"
+              >
+                <div className="flex items-start gap-4">
+                  <img
+                    src={comment.owner?.avatar}
+                    alt="User avatar"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-semibold">@{comment.owner?.userName}</span>
+                      <span className="text-gray-400 text-sm">
+                        {formatDate(comment.createdAt)}
+                      </span>
+                    </div>
+                    <p className="text-gray-200 mb-4">{comment.content}</p>
+                    
+                    <Link 
+                      to={`/video/${comment.video}`}
+                      className="inline-flex items-center text-blue-400 hover:text-blue-300"
+                    >
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        className="h-5 w-5 mr-1" 
+                        viewBox="0 0 20 20" 
+                        fill="currentColor"
+                      >
+                        <path 
+                          fillRule="evenodd" 
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" 
+                          clipRule="evenodd" 
+                        />
+                      </svg>
+                      View Video
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
-export default MyComments
+export default MyComments;

@@ -114,6 +114,7 @@ const PrivateChannelProfile = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {channelData.videos.map(video => (
               <VideoCard
+                id={video._id}
                 thumbnail={video.thumbnail}
                 title={video.title}
                 duration={video.duration}

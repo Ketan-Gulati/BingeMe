@@ -14,6 +14,7 @@ import Layout from './layouts/Layout.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AuthInitializer from './components/AuthInitializer.jsx';
 import PrivateChannelProfile from './pages/PrivateChannelProfile.jsx';
+import Video from './components/Video.jsx';
 
 function App() {
 
@@ -89,6 +90,10 @@ function App() {
             <Settings/>
           </ProtectedRoute>
         )
+      },
+      {
+        path: 'video/:videoId',
+        element: <Video/>
       }
     ]
   },

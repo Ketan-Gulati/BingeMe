@@ -22,13 +22,13 @@ const PublicChannelProfile = () => {
       try {
         setLoading(true);
         const response = await axios.get(`/v1/users/c/${userName}`);
-        const { data } = response.data;
+        const { data } = response.data.message;
         
         setChannelData({
           userName: data.userName,
           fullName: data.fullName,
-          avatar: data.avatar || 'https://via.placeholder.com/150',
-          coverImage: data.coverImage || 'https://via.placeholder.com/1200x300',
+          avatar: data.avatar,
+          coverImage: data.coverImage || '../../public/joe-woods-4Zaq5xY5M_c-unsplash.jpg',
           subscribersCount: data.subscribersCount,
           isSubscribed: data.isSubscribed,
           videos: data.videos || []
@@ -45,7 +45,7 @@ const PublicChannelProfile = () => {
 
   const handleSubscription = async () => {
     try {
-      const response = await axios.post(`/v1/subscriptions/c/${channelData._id}/toggle`);
+      const response = await axios.post(`/v1/subscriptions/c/${channelData._id}`);
       setChannelData(prev => ({
         ...prev,
         isSubscribed: !prev.isSubscribed,

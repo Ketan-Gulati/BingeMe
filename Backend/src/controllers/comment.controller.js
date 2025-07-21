@@ -3,6 +3,7 @@ import {Comment} from "../models/comment.models.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
+import { User } from "../models/user.models.js"
 
 //status:working
 const getVideoComments = asyncHandler(async (req, res) => {
@@ -137,9 +138,30 @@ const deleteComment = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200,{},"Comment has been deleted successfully"))
 })
 
+const getUserComments = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  const userComments = await Comment.find({ owner: userId })
+    .populate("owner", "userName avatar")  
+    .sort({ createdAt: -1 })               // latest comments first
+    .skip(skip)
+    .limit(limit);
+
+  const totalComments = await Comment.countDocuments({ owner: userId });
+
+  return res.status(200).json(
+    new ApiResponse(200, { comments: userComments, totalComments }, "User's comments fetched")
+  );
+});
+
+
 export {
     getVideoComments, 
     addComment, 
     updateComment,
-     deleteComment
+    deleteComment,
+    getUserComments
     }

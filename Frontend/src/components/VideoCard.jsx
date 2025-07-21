@@ -1,6 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function VideoCard({ thumbnail, title, duration, views, owner, createdAt }) {
+function VideoCard({ id, thumbnail, title, duration, views, owner, createdAt }) {
+
+  const navigate = useNavigate();
+
   // Convert duration (seconds) to MM:SS format
   const formatDuration = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -43,8 +47,12 @@ function VideoCard({ thumbnail, title, duration, views, owner, createdAt }) {
     return count;
   };
 
+  const handleClick = ()=>{
+    navigate(`/video/${id}`)
+  }
+
   return (
-    <div className="w-full max-w-xs bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:shadow-md hover:shadow-gray-600 transition-shadow duration-300 cursor-pointer">
+    <div onClick={handleClick} className="w-full max-w-xs bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:shadow-md hover:shadow-gray-600 transition-shadow duration-300 cursor-pointer">
       {/* Thumbnail with duration badge */}
       <div className="relative">
         <img 
