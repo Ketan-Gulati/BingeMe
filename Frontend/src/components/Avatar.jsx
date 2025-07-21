@@ -42,7 +42,7 @@ function Avatar() {
         className="flex items-center border border-[#5B5B5B] gap-2 py-2 px-5 rounded-3xl cursor-pointer hover:bg-[#2c2c2c]"
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <img src={user.avatar} alt={user.userName} className="w-8 h-8 rounded-full" />
+        <img src={user.avatar} alt={user.userName} className="w-8 h-8  rounded-full" />
         <p className="text-sm text-white font-semibold ">{user.userName}</p>
       </button>
 

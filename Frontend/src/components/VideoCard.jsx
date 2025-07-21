@@ -29,7 +29,7 @@ function VideoCard({ thumbnail, title, duration, views, createdAt }) {
   };
 
   return (
-    <div className="w-full max-w-xs bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer">
+    <div className="w-full max-w-xs bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:shadow-md  hover:shadow-gray-600 transition-shadow duration-300 cursor-pointer">
       {/* Thumbnail with duration badge */}
       <div className="relative">
         <img 

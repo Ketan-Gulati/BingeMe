@@ -38,11 +38,25 @@ const getAllVideos = asyncHandler(async (req, res) => {
     { $match: match },
     {
       $lookup: {
-        from: "user",
+        from: "users", 
         localField: "owner",
         foreignField: "_id",
-        as: "videosByOwner",
-      },
+        as: "ownerDetails",
+        pipeline: [
+          {
+            $project: {
+              username: 1,
+              avatar: 1,
+              fullName: 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      $addFields: {
+        owner: { $arrayElemAt: ["$ownerDetails", 0] }
+      }
     },
     {
       $project: {
@@ -54,7 +68,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
         views: 1,
         isPublished: 1,
         createdAt: 1,
-        owner: { $arrayElemAt: ["$videosByOwner", 0] },
+        owner: 1,
       },
     },
     { $sort: sortOption },
