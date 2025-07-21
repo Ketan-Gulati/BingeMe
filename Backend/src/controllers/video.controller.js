@@ -4,6 +4,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { User } from "../models/user.models.js";
 
 
 
@@ -244,6 +245,35 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
     );
 });
 
+const updateViewsAndWatchHist = asyncHandler(async(req,res)=>{
+  const {videoId} = req.params
+  const userId = req.user._id
+
+  if (!mongoose.Types.ObjectId.isValid(videoId)) {
+    throw new ApiError(400, "Invalid video ID");
+  }
+
+  const video = await Video.findByIdAndUpdate(videoId,
+    {
+      $inc: {views: 1}
+    },
+    {new: true});
+
+    if(!video){
+      throw new ApiError(404, "Video not found")
+    }
+
+    await User.findByIdAndUpdate(userId,
+      {
+        $addToSet: {watchHistory: videoId}
+      }
+    )
+
+  return res
+  .status(200)
+  .json(new ApiResponse(200,{},"Video views updated and video added to watch history"))
+})
+
 export {
   getAllVideos,
   publishAVideo,
@@ -251,4 +281,5 @@ export {
   updateVideo,
   deleteVideo,
   togglePublishStatus,
+  updateViewsAndWatchHist
 };
