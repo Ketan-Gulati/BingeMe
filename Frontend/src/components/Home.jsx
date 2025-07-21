@@ -47,7 +47,7 @@ function Home() {
       {loading && <Loading isVideo={true}/>}    
       {error && <ErrorBox/>}
       <div  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> 
-        {videos.videos?.map((video)=>(<VideoCard key={video._id} thumbnail={video.thumbnail} title={video.title} duration={video.duration} views={video.views} createdAt={video.createdAt}/>))}
+        {videos.videos?.map((video)=>(<VideoCard key={video._id} thumbnail={video.thumbnail} title={video.title} duration={video.duration} views={video.views} owner={video.owner} createdAt={video.createdAt}/>))}
       </div>
     </div>
   );
