@@ -4,17 +4,16 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from './components/Home.jsx'
 import SignIn from './pages/SignIn.jsx'
 import Register from './pages/Register.jsx'
-import MyChannel from './pages/MyChannel.jsx'
 import WatchHistory from './pages/WatchHistory.jsx'
 import CommunityPosts from './pages/CommunityPosts.jsx'
 import MyComments from './pages/MyComments.jsx'
 import Playlists from './pages/Playlists.jsx'
-import Dashboard from './pages/Dashboard.jsx'
 import UploadVideo from './pages/UploadVideo.jsx'
 import Settings from './pages/Settings.jsx'
 import Layout from './layouts/Layout.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AuthInitializer from './components/AuthInitializer.jsx';
+import PrivateChannelProfile from './pages/PrivateChannelProfile.jsx';
 
 function App() {
 
@@ -39,7 +38,7 @@ function App() {
         path: '/my-channel',
         element: (
           <ProtectedRoute>
-            <MyChannel/>
+            <PrivateChannelProfile/>
           </ProtectedRoute>
         )
       },
@@ -72,14 +71,6 @@ function App() {
         element: (
           <ProtectedRoute>
             <Playlists/>
-          </ProtectedRoute>
-        )
-      },
-      {
-        path: '/dashboard',
-        element: (
-          <ProtectedRoute>
-            <Dashboard/>
           </ProtectedRoute>
         )
       },

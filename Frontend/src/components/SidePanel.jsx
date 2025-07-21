@@ -113,17 +113,6 @@ function SidePanel() {
                         <span className='text-white font-medium text-[14px]'>Playlists</span>
                     </div>
                 </NavLink>
-                <NavLink to='/dashboard' onClick={handleClick('/dashboard')} className={({isActive})=>
-                    clsx(
-                        'duration-200 border-b border-gray-500 lg:border-0',
-                        isActive ? 'text-gray-300' : 'text-gray-500'
-                    )
-                } end>
-                    <div className='flex items-center gap-6 cursor-pointer'>
-                        <MdDashboard  className='text-white  size-8'/>
-                        <span className='text-white font-medium text-[14px]'>Dashboard</span>
-                    </div>
-                </NavLink>
                 <NavLink to='/upload-video' onClick={handleClick('/upload-video')} className={({isActive})=>
                     clsx(
                         'duration-200 border-b border-gray-500 lg:border-0',

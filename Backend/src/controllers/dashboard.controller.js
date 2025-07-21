@@ -46,37 +46,30 @@ const getChannelStats = asyncHandler(async (req, res) => {
 
 //status:working
 const getChannelVideos = asyncHandler(async (req, res) => {
-    // TODO: Get all the videos uploaded by the channel
+  const channelId = req.user._id;
+  const { page = 1, limit = 10, includeUnpublished = false } = req.query;
+  
+  if(!mongoose.Types.ObjectId.isValid(channelId)){
+    throw new ApiError(400,"Invalid channel");
+  }
 
-    const channelId = req.user._id
-    const {page = 1, limit = 10}  = req.query
-    
-    if(!mongoose.Types.ObjectId.isValid(channelId)){
-        throw new ApiError(400,"Invalid channel")
-    }
+  const matchCriteria = { owner: channelId };
+  if (!includeUnpublished) {
+    matchCriteria.isPublished = true;
+  }
 
-    const pageNumber = parseInt(page);
-    const limitNumber = parseInt(limit);
-    const skip = (pageNumber - 1) * limitNumber;
+  const videos = await Video.find(matchCriteria)
+    .select("title thumbnail duration views isPublished createdAt")
+    .sort({ createdAt: -1 })
+    .skip((page - 1) * limit)
+    .limit(limit);
 
-    const videos = await Video.find({owner : channelId})
-                            .select("title thumbnail duration views isPublished createdAt")
-                            .sort({ createdAt: -1 })
-                            .skip(skip)
-                            .limit(limitNumber);
-
-    const totalVideos = await Video.countDocuments({owner : channelId})
-                           
-    if(videos.length===0){
-        return res
-        .status(200)
-        .json(new ApiResponse(200,{videos : [], totalVideos},"No videos found"))
-    }
-
-    return res
-    .status(200)
-    .json(new ApiResponse(200,{videos, totalVideos},"Videos fetched successfully"))
-})
+  const totalVideos = await Video.countDocuments(matchCriteria);
+  
+  return res.status(200).json(
+    new ApiResponse(200, { videos, totalVideos }, "Videos fetched successfully")
+  );
+});
 
 export {
     getChannelStats, 
