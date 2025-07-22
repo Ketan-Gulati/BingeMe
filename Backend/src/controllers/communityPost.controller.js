@@ -27,34 +27,30 @@ const getAllCommunityPosts = asyncHandler(async (req, res) => {
 
 //status:working
 const createCommunityPost = asyncHandler(async (req, res) => {
-    //TODO: create post
+    const ownerId = req.user._id;
+    const { content } = req.body;
 
-    //get user id
-    //verify user
-    //get post content from body
-    //create post
-
-    const ownerId = req.user._id
-
-    const {content} = req.body
-
-    if(!content || content.trim()===""){
-        throw new ApiError(400,"Post content is required")
+    if (!content || content.trim() === "") {
+        throw new ApiError(400, "Post content is required");
     }
 
-    const post = await CommunityPost.create({
+    let post = await CommunityPost.create({
         content,
-        owner : ownerId
-    })
+        owner: ownerId
+    });
 
-    if(!post){
-        throw new ApiError(500,"Error while creating post")
+    if (!post) {
+        throw new ApiError(500, "Error while creating post");
     }
+
+    //Populate the owner details (e.g., avatar, username)
+    post = await post.populate("owner", "fullName username avatar");
 
     return res
-    .status(200)
-    .json(new ApiResponse(200,post,"Community post created successfully"))
-})
+        .status(200)
+        .json(new ApiResponse(200, post, "Community post created successfully"));
+});
+
 
 //status:working
 const getUserCommunityPost = asyncHandler(async (req, res) => {

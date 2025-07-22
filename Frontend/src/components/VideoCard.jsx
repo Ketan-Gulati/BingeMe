@@ -61,10 +61,6 @@ function VideoCard({ id, thumbnail, title, duration, views, owner, createdAt }) 
           src={thumbnail} 
           alt={title} 
           className="w-full h-48 object-cover"
-          onError={(e) => {
-            e.target.onerror = null; 
-            e.target.src = 'https://via.placeholder.com/320x180';
-          }}
         />
         <span className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs px-2 py-1 rounded">
           {formatDuration(duration)}

@@ -15,6 +15,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AuthInitializer from './components/AuthInitializer.jsx';
 import PrivateChannelProfile from './pages/PrivateChannelProfile.jsx';
 import Video from './components/Video.jsx';
+import UserPosts from './pages/UserPosts.jsx';
 
 function App() {
 
@@ -94,6 +95,10 @@ function App() {
       {
         path: 'video/:videoId',
         element: <Video/>
+      },
+      {
+        path: '/community-posts/:userId',
+        element: <UserPosts/>
       }
     ]
   },
