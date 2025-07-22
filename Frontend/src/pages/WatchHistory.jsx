@@ -3,7 +3,9 @@ import axios from 'axios';
 import Loading from '../components/Loading';
 import { Link } from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
+// Utility to format video duration
 function formatDuration(seconds) {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
@@ -14,6 +16,9 @@ function WatchHistory() {
   const [loading, setLoading] = useState(false);
   const [watchHist, setWatchHist] = useState([]);
   const [error, setError] = useState(null);
+
+  // Get theme from Redux store
+  const theme = useSelector((state) => state.theme.theme);
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -36,17 +41,26 @@ function WatchHistory() {
   if (error) return <div className="text-center text-red-500 mt-6">{error}</div>;
 
   return (
-    <div className="p-6 min-h-screen bg-gray-900 text-white">
+    <div
+      className={`p-6 min-h-screen transition-colors duration-300 ${
+        theme === 'dark' ? 'bg-[#0f0f0f] text-white' : 'bg-[#ffffff] text-black'
+      }`}
+    >
       <h2 className="text-3xl font-semibold mb-6">Watch History</h2>
+
       {watchHist?.length === 0 ? (
-        <p className="text-gray-400">No videos watched yet.</p>
+        <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+          No videos watched yet.
+        </p>
       ) : (
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {watchHist.map(video => (
+          {watchHist.map((video) => (
             <Link
               to={`/video/${video._id}`}
               key={video._id}
-              className="bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:scale-[1.02] transition-transform"
+              className={`rounded-2xl overflow-hidden shadow-lg hover:scale-[1.02] transition-transform ${
+                theme === 'dark' ? 'bg-[#1f1f1f]' : 'bg-gray-100'
+              }`}
             >
               <div className="relative">
                 <img
@@ -54,14 +68,24 @@ function WatchHistory() {
                   alt={video.title}
                   className="w-full h-48 object-cover"
                 />
-                <span className="absolute bottom-2 right-2 text-xs bg-black bg-opacity-70 text-white px-2 py-1 rounded-md">
+                <span className="absolute bottom-2 right-2 text-xs bg-black/70 text-white px-2 py-1 rounded-md">
                   {formatDuration(video.duration)}
                 </span>
               </div>
               <div className="p-4">
                 <h3 className="text-lg font-semibold mb-1 line-clamp-2">{video.title}</h3>
-                <p className="text-sm text-gray-400 mb-1">by {video.owner?.fullName || 'Unknown'}</p>
-                <div className="flex items-center text-gray-400 text-sm">
+                <p
+                  className={`text-sm mb-1 ${
+                    theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                  }`}
+                >
+                  by {video.owner?.fullName || 'Unknown'}
+                </p>
+                <div
+                  className={`flex items-center text-sm ${
+                    theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                  }`}
+                >
                   <FaEye className="w-4 h-4 mr-1" />
                   <span>{video.views} views</span>
                 </div>

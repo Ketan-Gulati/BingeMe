@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import VideoCard from '../components/VideoCard';
 import Loading from '../components/Loading';
+import { useSelector } from 'react-redux';
 
 const PrivateChannelProfile = () => {
+  const { theme } = useSelector((state) => state.theme);
+
   const [loading, setLoading] = useState(true);
   const [channelData, setChannelData] = useState({
     userName: '',
@@ -14,8 +17,9 @@ const PrivateChannelProfile = () => {
     totalVideos: 0,
     totalViews: 0,
     totalLikes: 0,
-    videos: []
   });
+
+  const [videos, setVideos] = useState([]);
 
   useEffect(() => {
     const fetchChannelData = async () => {
@@ -24,7 +28,7 @@ const PrivateChannelProfile = () => {
         const [profileRes, statsRes, videosRes] = await Promise.all([
           axios.get('/v1/users/current-user'),
           axios.get('/v1/dashboard/stats'),
-          axios.get('/v1/dashboard/videos?includeUnpublished=true')
+          axios.get('/v1/dashboard/videos?includeUnpublished=true'),
         ]);
 
         setChannelData({
@@ -36,8 +40,9 @@ const PrivateChannelProfile = () => {
           totalVideos: statsRes.data.message.totalVideos,
           totalViews: statsRes.data.message.totalViews,
           totalLikes: statsRes.data.message.totalLikes,
-          videos: videosRes.data.message.videos || []
         });
+
+        setVideos(videosRes.data.message.videos || []);
       } catch (error) {
         console.error('Error fetching channel data:', error);
       } finally {
@@ -48,6 +53,9 @@ const PrivateChannelProfile = () => {
     fetchChannelData();
   }, []);
 
+  const handleDelete = (videoId) => {
+    setVideos(prev => prev.filter(video => video._id !== videoId));
+  };
 
   const formatNumber = (num) => {
     if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
@@ -58,12 +66,12 @@ const PrivateChannelProfile = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen">
+    <div className={`min-h-screen transition-colors duration-200 ${theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-white text-gray-900'}`}>
       {/* Cover Image */}
-      <div className="h-48 w-full bg-gray-800 overflow-hidden">
-        <img 
-          src={channelData.coverImage} 
-          alt="Channel cover" 
+      <div className={`h-48 w-full overflow-hidden ${theme === 'dark' ? 'bg-[#1e1e1e]' : 'bg-gray-200'}`}>
+        <img
+          src={channelData.coverImage}
+          alt="Channel cover"
           className="w-full h-full object-cover"
         />
       </div>
@@ -72,65 +80,68 @@ const PrivateChannelProfile = () => {
       <div className="px-6 pb-6 relative">
         <div className="flex flex-col md:flex-row items-start md:items-end gap-6 -mt-16">
           {/* Avatar */}
-          <div className="w-32 h-32 rounded-full border-4 border-gray-900 overflow-hidden">
-            <img 
-              src={channelData.avatar} 
+          <div className="w-32 h-32 rounded-full border-4 border-white dark:border-[#121212] overflow-hidden">
+            <img
+              src={channelData.avatar}
               alt="Channel avatar"
               className="w-full h-full object-cover"
             />
           </div>
 
-          {/* Channel Metadata */}
+          {/* Metadata */}
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-white [text-shadow:_1px_1px_2px_black]">{channelData.fullName}</h1>
-            <p className="text-white/90 drop-shadow-md">@{channelData.userName}</p>
-            
+            <h1 className="text-2xl font-bold">{channelData.fullName}</h1>
+            <p className="text-gray-600 dark:text-gray-300">@{channelData.userName}</p>
+
             <div className="flex flex-wrap gap-6 mt-4">
               <div className="flex flex-col">
                 <span className="font-semibold">{formatNumber(channelData.totalSubscribers)}</span>
-                <span className="text-white [text-shadow:_0_0_8px_rgba(0,0,0,0.8)] text-sm">Subscribers</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">Subscribers</span>
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold">{formatNumber(channelData.totalVideos)}</span>
-                <span className="text-white [text-shadow:_0_0_8px_rgba(0,0,0,0.8)] text-sm">Videos</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">Videos</span>
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold">{formatNumber(channelData.totalViews)}</span>
-                <span className="text-white [text-shadow:_0_0_8px_rgba(0,0,0,0.8)] text-sm">Views</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">Views</span>
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold">{formatNumber(channelData.totalLikes)}</span>
-                <span className="text-white [text-shadow:_0_0_8px_rgba(0,0,0,0.8)] text-sm">Likes</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">Likes</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Videos Section */}
+      {/* Videos */}
       <div className="px-6 pb-12">
         <h2 className="text-xl font-bold mb-6">Your Videos</h2>
-        {channelData.videos.length > 0 ? (
+        {videos?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {channelData.videos.map(video => (
+            {videos.map(video => (
               <VideoCard
+                key={video._id}
                 id={video._id}
                 thumbnail={video.thumbnail}
                 title={video.title}
                 duration={video.duration}
                 views={video.views}
-                owner={channelData.userName}
+                owner={{ fullName: channelData.fullName, avatar: channelData.avatar }}
                 createdAt={video.createdAt}
+                deleteBtn={true}
+                onDelete={() => handleDelete(video._id)}
               />
             ))}
           </div>
         ) : (
-          <div className="bg-gray-800 rounded-lg p-12 text-center">
-            <svg className="mx-auto h-12 w-12 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className={`rounded-lg p-12 text-center border ${theme === 'dark' ? 'bg-[#1e1e1e] border-gray-700 text-white' : 'bg-white border-gray-200 text-gray-900'}`}>
+            <svg className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
-            <h3 className="mt-2 text-lg font-medium text-white">No videos uploaded yet</h3>
-            <p className="mt-1 text-gray-400">Upload your first video to get started</p>
+            <h3 className="mt-4 text-lg font-semibold">No videos uploaded yet</h3>
+            <p className="mt-1 text-gray-500 dark:text-gray-400">Upload your first video to get started</p>
           </div>
         )}
       </div>

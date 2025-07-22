@@ -1,26 +1,28 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser,logout } from '../Redux/slice/authSlice';
+import { logoutUser, logout } from '../Redux/slice/authSlice';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import clsx from 'clsx';
 
 function Avatar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const theme = useSelector((state) => state.theme.theme);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const handleLogout = async()=>{
+  const handleLogout = async () => {
     try {
-        await dispatch(logoutUser()).unwrap();
-        dispatch(logout());
-        navigate("/");
-        window.location.reload();
+      await dispatch(logoutUser()).unwrap();
+      dispatch(logout());
+      navigate("/");
+      window.location.reload();
     } catch (error) {
-        console.error("Logout failed: ",error);
+      console.error("Logout failed: ", error);
     }
-  }
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -37,17 +39,31 @@ function Avatar() {
 
   return (
     <div className="relative w-[140px] h-[45px]" ref={dropdownRef}>
-        {/* avatar button or icon */}
+      {/* avatar button or icon */}
       <button
-        className="flex items-center border border-[#5B5B5B] gap-2 py-2 px-5 rounded-3xl cursor-pointer hover:bg-[#2c2c2c]"
+        className={clsx(
+          "flex items-center gap-2 py-2 px-5 rounded-3xl cursor-pointer border",
+          theme === 'dark'
+            ? "border-[#5B5B5B] hover:bg-[#2c2c2c]"
+            : "border-gray-300 hover:bg-gray-100"
+        )}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <img src={user.avatar} alt={user.userName} className="w-8 h-8  rounded-full" />
-        <p className="text-sm text-white font-semibold ">{user.userName}</p>
+        <img
+          src={user.avatar}
+          alt={user.userName}
+          className="w-8 h-8 rounded-full"
+        />
+        <p className={clsx(
+          "text-sm font-semibold hidden md:block",
+          theme === 'dark' ? "text-white" : "text-black"
+        )}>
+          {user.userName}
+        </p>
       </button>
 
-        {/* dropdown menu  */}
-        {/* added animation for dropdown */}
+      {/* dropdown menu */}
+      {/* added animation for dropdown */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -55,14 +71,23 @@ function Avatar() {
             animate={{ opacity: 1, y: 5 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-50"
+            className={clsx(
+              "absolute right-0 mt-2 w-48 shadow-lg rounded-lg py-2 z-50",
+              theme === 'dark' ? "bg-[#1e1e1e]" : "bg-white"
+            )}
           >
-            <div className="px-4 py-2 text-gray-700 border-b border-gray-200">
+            <div className={clsx(
+              "px-4 py-2 border-b",
+              theme === 'dark' ? "text-gray-300 border-gray-700" : "text-gray-700 border-gray-200"
+            )}>
               Hello, <strong>{user.fullName}</strong>
             </div>
             <button
               onClick={handleLogout}
-              className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 font-medium cursor-pointer"
+              className={clsx(
+                "w-full text-left px-4 py-2 font-medium cursor-pointer",
+                theme === 'dark' ? "hover:bg-[#2c2c2c] text-red-500" : "hover:bg-gray-100 text-red-600"
+              )}
             >
               Logout
             </button>

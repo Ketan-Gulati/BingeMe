@@ -13,10 +13,10 @@ function CommunityPosts() {
   const [newPostContent, setNewPostContent] = useState('');
   const [creating, setCreating] = useState(false);
 
+  const theme = useSelector(state => state.theme.theme);
   const userId = useSelector(state => state.auth.user?._id);
   const navigate = useNavigate();
 
-  // Fetch posts
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
@@ -33,7 +33,6 @@ function CommunityPosts() {
     fetchPosts();
   }, []);
 
-  // Format timestamp
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
@@ -44,7 +43,6 @@ function CommunityPosts() {
     });
   };
 
-  // Create a new post
   const handleCreatePost = async (e) => {
     e.preventDefault();
     if (!newPostContent.trim()) return;
@@ -71,8 +69,12 @@ function CommunityPosts() {
     navigate(`/community-posts/${userId}`);
   };
 
+  const isDark = theme === 'dark';
+
   return (
-    <div className="max-w-3xl mx-auto p-4 sm:p-6 lg:p-8 text-gray-900 dark:text-white">
+    <div className={`min-h-screen max-w-3xl mx-auto p-4 sm:p-6 lg:p-8 transition-colors duration-200 ${
+      isDark ? 'bg-[#121212] text-gray-100' : 'bg-white text-gray-900'
+    }`}>
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold flex items-center gap-2 text-blue-500">
@@ -91,7 +93,9 @@ function CommunityPosts() {
       {/* Create Post Form */}
       <form
         onSubmit={handleCreatePost}
-        className="bg-white dark:bg-[#1f1f1f] p-5 rounded-xl shadow mb-8 border border-gray-200 dark:border-gray-700"
+        className={`p-5 rounded-xl shadow mb-8 transition-colors duration-200 ${
+          isDark ? 'bg-[#1e1e1e] border border-gray-700' : 'bg-white border border-gray-200'
+        }`}
       >
         <div className="flex items-start gap-3">
           <FiEdit3 className="text-xl mt-1 text-blue-600" />
@@ -100,7 +104,11 @@ function CommunityPosts() {
             value={newPostContent}
             onChange={(e) => setNewPostContent(e.target.value)}
             placeholder="What's on your mind?"
-            className="w-full p-3 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#121212] dark:text-white"
+            className={`w-full p-3 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 ${
+              isDark
+                ? 'bg-[#1e1e1e] border-gray-600 text-gray-100 placeholder-gray-400'
+                : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+            }`}
             required
           />
         </div>
@@ -108,9 +116,9 @@ function CommunityPosts() {
           <button
             type="submit"
             disabled={creating || !newPostContent.trim()}
-            className={`px-5 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition ${
+            className={`px-5 py-2 rounded-lg font-semibold transition ${
               creating ? 'opacity-70 cursor-not-allowed' : ''
-            }`}
+            } ${isDark ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
           >
             {creating ? "Posting..." : "Post"}
           </button>
@@ -124,43 +132,65 @@ function CommunityPosts() {
         </div>
       ) : error ? (
         <div className="text-center p-6">
-          <div className="inline-block px-4 py-2 rounded-lg bg-red-100 text-red-700 text-sm font-medium shadow-sm">
+          <div className={`inline-block px-4 py-2 rounded-lg ${
+            isDark ? 'bg-red-900/30 text-red-300' : 'bg-red-100 text-red-700'
+          } text-sm font-medium shadow-sm`}>
             {error}
           </div>
         </div>
       ) : posts.length === 0 ? (
-        <div className="bg-gray-100 dark:bg-[#2a2a2a] rounded-xl p-10 text-center shadow-md">
-          <div className="mx-auto w-16 h-16 bg-gray-200 dark:bg-[#3a3a3a] rounded-full flex items-center justify-center mb-4">
-            <FiMessageSquare className="text-gray-400 text-2xl" />
+        <div className={`rounded-xl p-10 text-center shadow-md transition-colors duration-200 ${
+          isDark ? 'bg-[#1e1e1e]' : 'bg-gray-50'
+        }`}>
+          <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4 ${
+            isDark ? 'bg-[#2a2a2a]' : 'bg-gray-200'
+          }`}>
+            <FiMessageSquare className={`text-2xl ${
+              isDark ? 'text-gray-400' : 'text-gray-500'
+            }`} />
           </div>
-          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200">No posts yet</h3>
-          <p className="text-gray-500 mt-1">Be the first to share something with the community</p>
+          <h3 className={`text-lg font-semibold ${
+            isDark ? 'text-gray-200' : 'text-gray-700'
+          }`}>No posts yet</h3>
+          <p className={`mt-1 ${
+            isDark ? 'text-gray-400' : 'text-gray-500'
+          }`}>Be the first to share something with the community</p>
         </div>
       ) : (
         <div className="space-y-6">
           {posts.map(post => (
             <div
               key={post._id}
-              className="bg-white dark:bg-[#1f1f1f] rounded-2xl p-6 shadow hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-700"
+              className={`rounded-2xl p-6 shadow hover:shadow-lg transition-all duration-200 ${
+                isDark ? 'bg-[#1e1e1e]' : 'bg-white'
+              }`}
             >
               <div className="flex items-start gap-4">
                 <img
                   src={post.owner.avatar}
                   alt={post.owner.fullName}
-                  className="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow"
+                  className="w-12 h-12 rounded-full object-cover border-2 shadow border-white"
                 />
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">
+                    <span className={`font-semibold ${
+                      isDark ? 'text-gray-100' : 'text-gray-900'
+                    }`}>
                       {post.owner.fullName}
                     </span>
-                    <span className="text-sm text-gray-500">@{post.owner.userName}</span>
-                    <span className="flex items-center text-sm text-gray-400 gap-1">
+                    <span className={`text-sm ${
+                      isDark ? 'text-gray-400' : 'text-gray-500'
+                    }`}>@{post.owner.userName}</span>
+                    <span className={`flex items-center text-sm gap-1 ${
+                      isDark ? 'text-gray-500' : 'text-gray-400'
+                    }`}>
                       <FiClock size={14} />
                       {formatDate(post.createdAt)}
                     </span>
                   </div>
-                  <p className="mt-2 text-gray-800 dark:text-gray-200">{post.content}</p>
+                  <p className={`mt-2 ${
+                    isDark ? 'text-gray-200' : 'text-gray-800'
+                  }`}>{post.content}</p>
                 </div>
               </div>
             </div>

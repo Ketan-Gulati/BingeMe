@@ -4,8 +4,9 @@ import VideoCard from './VideoCard';
 import ErrorBox from './ErrorBox';
 import Loading from './Loading';
 import { useLocation } from 'react-router-dom';
-import  {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { showPopup } from '../Redux/slice/popupSlice';
+import clsx from 'clsx';
 
 function Home() {
   const [videos, setVideos] = useState({ videos: [], currentPage: null });
@@ -14,6 +15,7 @@ function Home() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector(state => state.auth);
+  const theme = useSelector(state => state.theme.theme); // get current theme
 
   useEffect(() => {
     // Show popup only if redirected from protected route
@@ -22,32 +24,49 @@ function Home() {
     }
   }, [location, isLoggedIn, dispatch]);
 
-  useEffect(()=>{
-    const fetchVideos = async()=>{
+  useEffect(() => {
+    const fetchVideos = async () => {
       setLoading(true);
       try {
-        const res = await axios.get('/v1/videos/')
+        const res = await axios.get('/v1/videos/');
         setVideos({
-          videos: res.data.message?.videos || [], 
+          videos: res.data.message?.videos || [],
           currentPage: res.data.message?.currentPage || null
         });
       } catch (error) {
         setError(error);
         console.error("Error fetching videos:", error);
-      }finally {
+      } finally {
         setLoading(false);
       }
-    }
+    };
     fetchVideos();
-  },[]);
+  }, []);
 
   return (
-    <div className='p-5'>
+    <div
+      className={clsx(
+        'p-5 min-h-screen',
+        theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-white text-black'
+      )}
+    >
       {/* created a separate loading component for better UI */}
-      {loading && <Loading isVideo={true}/>}    
-      {error && <ErrorBox/>}
-      <div  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> 
-        {videos.videos?.map((video)=>(<VideoCard key={video._id} id={video._id} thumbnail={video.thumbnail} title={video.title} duration={video.duration} views={video.views} owner={video.owner} createdAt={video.createdAt}/>))}
+      {loading && <Loading isVideo={true} />}
+      {error && <ErrorBox />}
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {videos.videos?.map((video) => (
+          <VideoCard
+            key={video._id}
+            id={video._id}
+            thumbnail={video.thumbnail}
+            title={video.title}
+            duration={video.duration}
+            views={video.views}
+            owner={video.owner}
+            createdAt={video.createdAt}
+          />
+        ))}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
-// tailwind.config.js
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -9,9 +10,4 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-  safelist: [
-    'text-gray-300',
-    'text-gray-500',
-    // Add any other specific dynamic classes here if they are not being picked up
-  ],
 };
