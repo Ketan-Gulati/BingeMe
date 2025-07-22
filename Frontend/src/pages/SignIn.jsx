@@ -30,7 +30,7 @@ function SignIn() {
             await dispatch(fetchCurrentUser()).unwrap();
             navigate("/", {replace:true});
         } catch (error) {
-            console.log("Login failed:", err);
+            console.log("Login failed:", error);
             alert("Invalid credentials");
     };
 }
