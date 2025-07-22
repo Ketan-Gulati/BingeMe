@@ -19,10 +19,6 @@ function Home() {
   const error = useSelector(state => state.videos?.error || null);
 
   useEffect(() => {
-  console.log("Updated video list:", list); // ADD THIS
-}, [list]);
-
-  useEffect(() => {
     // Show popup if redirected from protected route
     if (location.state?.from && !isLoggedIn) {
       dispatch(showPopup());

@@ -1,7 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 function ErrorBox() {
+
+  const { isLoggedIn, initialized } = useSelector((state) => state.auth);
+
+  if (initialized && isLoggedIn) return null;
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
