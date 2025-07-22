@@ -66,7 +66,7 @@ function CommunityPosts() {
   };
 
   const handleClick = () => {
-    navigate(`/community-posts/${userId}`);
+    navigate(`/community-posts/${userId}`, {replace:true});
   };
 
   const isDark = theme === 'dark';

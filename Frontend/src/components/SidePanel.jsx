@@ -39,7 +39,7 @@ function SidePanel() {
             {popup && (
                 <Popup onClose={() => {
                     dispatch(hidePopup());
-                    navigate("/");
+                    navigate("/", {replace:true});
                 }} />
             )}
 
@@ -62,6 +62,7 @@ function SidePanel() {
                             )
                         } 
                         end
+                        replace
                     >
                         <div className='flex items-center gap-6 cursor-pointer'>
                             <IoMdHome className={clsx('size-6', theme === 'dark' ? 'text-white' : 'text-gray-700')} />
@@ -82,6 +83,7 @@ function SidePanel() {
                             )
                         } 
                         end
+                        replace
                     >
                         <div className='flex items-center gap-6 cursor-pointer'>
                             <RiAccountCircleFill className={clsx('size-6', theme === 'dark' ? 'text-white' : 'text-gray-700')} />
@@ -102,6 +104,7 @@ function SidePanel() {
                             )
                         } 
                         end
+                        replace
                     >
                         <div className='flex items-center gap-6 cursor-pointer'>
                             <RiHistoryLine className={clsx('size-6', theme === 'dark' ? 'text-white' : 'text-gray-700')} />
@@ -122,6 +125,7 @@ function SidePanel() {
                             )
                         } 
                         end
+                        replace
                     >
                         <div className='flex items-center gap-6 cursor-pointer'>
                             <AiFillMessage className={clsx('size-6', theme === 'dark' ? 'text-white' : 'text-gray-700')} />
@@ -142,6 +146,7 @@ function SidePanel() {
                             )
                         } 
                         end
+                        replace
                     >
                         <div className='flex items-center gap-6 cursor-pointer'>
                             <HiPencilSquare className={clsx('size-6', theme === 'dark' ? 'text-white' : 'text-gray-700')} />
@@ -162,6 +167,7 @@ function SidePanel() {
                             )
                         } 
                         end
+                        replace
                     >
                         <div className='flex items-center gap-6 cursor-pointer'>
                             <CgPlayList className={clsx('size-6', theme === 'dark' ? 'text-white' : 'text-gray-700')} />
@@ -182,6 +188,7 @@ function SidePanel() {
                             )
                         } 
                         end
+                        replace
                     >
                         <div className='flex items-center gap-6 cursor-pointer'>
                             <TbUpload className={clsx('size-6', theme === 'dark' ? 'text-white' : 'text-gray-700')} />
@@ -205,6 +212,7 @@ function SidePanel() {
                             )
                         } 
                         end
+                        replace
                     >
                         <div className='flex items-center gap-6 cursor-pointer'>
                             <MdSettings className={clsx('size-6', theme === 'dark' ? 'text-white' : 'text-gray-700')} />

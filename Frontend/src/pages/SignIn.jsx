@@ -29,7 +29,7 @@ function SignIn() {
             .unwrap()    // converts the result into normal promise
             .then(() => {
                 dispatch(fetchCurrentUser());
-                navigate("/");
+                navigate("/", {replace:true});
             })
             .catch((err) => {
                 console.log("Login failed:", err);

@@ -57,7 +57,7 @@ function Header() {
       {popup && (
         <Popup onClose={() => {
           dispatch(hidePopup());
-          navigate("/");
+          navigate("/", {replace:true});
         }} />
       )}
 

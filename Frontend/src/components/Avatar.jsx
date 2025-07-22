@@ -17,7 +17,7 @@ function Avatar() {
     try {
       await dispatch(logoutUser()).unwrap();
       dispatch(logout());
-      navigate("/");
+      navigate("/", {replace:true});
       window.location.reload();
     } catch (error) {
       console.error("Logout failed: ", error);

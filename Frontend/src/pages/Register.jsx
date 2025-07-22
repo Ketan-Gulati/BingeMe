@@ -62,7 +62,7 @@ function Register() {
             if (coverImage) formDataObj.append('coverImage', coverImage);
 
             await dispatch(registerUser(formDataObj)).unwrap();
-            navigate('/');
+            navigate('/', {replace:true});
         } catch (err) {
             if (err.payload?.status === 409) {
                 setError("Username or email already exists");
