@@ -16,7 +16,7 @@ function SignIn() {
     const theme = useSelector((state) => state.theme.theme);
     const isDark = theme === "dark";
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!input || !password) {
@@ -24,19 +24,16 @@ function SignIn() {
             return;
         }
 
-        // backend accepts either email or username
-        dispatch(loginUser({ email: input, userName: input, password }))
-            .unwrap()    // converts the result into normal promise
-            .then(() => {
-                dispatch(fetchCurrentUser());
-                navigate("/", {replace:true});
-            })
-            .catch((err) => {
-                console.log("Login failed:", err);
-                alert("Invalid credentials");
-            })
+        try {
+            // backend accepts either email or username
+            await dispatch(loginUser({ email: input, userName: input, password })).unwrap()  // .unwrap = converts the result into normal promise
+            await dispatch(fetchCurrentUser()).unwrap();
+            navigate("/", {replace:true});
+        } catch (error) {
+            console.log("Login failed:", err);
+            alert("Invalid credentials");
     };
-
+}
 
     return (
         <>
