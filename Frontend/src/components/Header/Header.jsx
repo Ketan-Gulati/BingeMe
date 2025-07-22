@@ -9,6 +9,7 @@ import { IoSearch } from "react-icons/io5";
 import clsx from 'clsx';
 import { hidePopup, showPopup } from '../../Redux/slice/popupSlice';
 import Popup from '../Popup';
+import { fetchVideos } from '../../Redux/slice/videoSlice';
 
 function Header() {
   const theme = useSelector((state) => state.theme.theme);
@@ -35,6 +36,17 @@ function Header() {
       e.preventDefault();
       dispatch(showPopup());
     }
+  };
+
+  const handleSearch = () => {
+    // Only search if there's a query or reset to show all videos
+    dispatch(fetchVideos({ 
+      searchQuery: searchQuery.trim()
+    }));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') handleSearch();
   };
 
   return (
@@ -104,6 +116,7 @@ function Header() {
                 type='text'
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
                 className={clsx(
                   'w-full py-2 px-5 focus:outline-none',
                   theme === 'dark' ? 'text-white bg-transparent' : 'text-gray-900'
@@ -111,6 +124,7 @@ function Header() {
               />
             </div>
             <button
+              onClick={handleSearch}
               className={clsx(
                 'rounded-r-full px-5 py-2 flex items-center justify-center',
                 theme === 'dark' ? 'bg-[#333] hover:bg-[#444] border-gray-700' : 'bg-gray-200 hover:bg-gray-300 border-gray-200',
@@ -153,6 +167,7 @@ function Header() {
             />
           </div>
           <button
+            onClick={handleSearch}
             className={clsx(
               'rounded-r-full px-4 py-2 flex items-center justify-center',
               theme === 'dark' ? 'bg-[#333] hover:bg-[#444] border-gray-700' : 'bg-gray-200 hover:bg-gray-300 border-gray-200',

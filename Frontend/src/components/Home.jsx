@@ -1,5 +1,4 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import VideoCard from './VideoCard';
 import ErrorBox from './ErrorBox';
 import Loading from './Loading';
@@ -7,41 +6,32 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { showPopup } from '../Redux/slice/popupSlice';
 import clsx from 'clsx';
+import { fetchVideos } from '../Redux/slice/videoSlice';
 
 function Home() {
-  const [videos, setVideos] = useState({ videos: [], currentPage: null });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const location = useLocation();
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector(state => state.auth);
-  const theme = useSelector(state => state.theme.theme); // get current theme
+  const theme = useSelector(state => state.theme.theme);
+  
+  const list = useSelector(state => state.videos?.list || []);
+  const loading = useSelector(state => state.videos?.loading || false);
+  const error = useSelector(state => state.videos?.error || null);
 
   useEffect(() => {
-    // Show popup only if redirected from protected route
+  console.log("Updated video list:", list); // ADD THIS
+}, [list]);
+
+  useEffect(() => {
+    // Show popup if redirected from protected route
     if (location.state?.from && !isLoggedIn) {
       dispatch(showPopup());
     }
+
+    // Initial video fetch
+    dispatch(fetchVideos({}));
   }, [location, isLoggedIn, dispatch]);
 
-  useEffect(() => {
-    const fetchVideos = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get('/v1/videos/');
-        setVideos({
-          videos: res.data.message?.videos || [],
-          currentPage: res.data.message?.currentPage || null
-        });
-      } catch (error) {
-        setError(error);
-        console.error("Error fetching videos:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchVideos();
-  }, []);
 
   return (
     <div
@@ -50,12 +40,11 @@ function Home() {
         theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-white text-black'
       )}
     >
-      {/* created a separate loading component for better UI */}
       {loading && <Loading isVideo={true} />}
       {error && <ErrorBox />}
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {videos.videos?.map((video) => (
+        {list?.map((video) => (
           <VideoCard
             key={video._id}
             id={video._id}

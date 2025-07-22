@@ -16,6 +16,8 @@ import AuthInitializer from './components/AuthInitializer.jsx';
 import PrivateChannelProfile from './pages/PrivateChannelProfile.jsx';
 import Video from './components/Video.jsx';
 import UserPosts from './pages/UserPosts.jsx';
+import { Provider } from 'react-redux';
+import { store } from './Redux/store.js';
 
 function App() {
 
