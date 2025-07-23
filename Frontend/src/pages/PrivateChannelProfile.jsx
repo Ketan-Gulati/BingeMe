@@ -35,7 +35,7 @@ const PrivateChannelProfile = () => {
           userName: profileRes.data.message.userName,
           fullName: profileRes.data.message.fullName,
           avatar: profileRes.data.message.avatar,
-          coverImage: profileRes.data.message.coverImage || '../../public/joe-woods-4Zaq5xY5M_c-unsplash.jpg',
+          coverImage: profileRes.data.message.coverImage || '/joe-woods-4Zaq5xY5M_c-unsplash.jpg',
           totalSubscribers: statsRes.data.message.totalSubscribers,
           totalVideos: statsRes.data.message.totalVideos,
           totalViews: statsRes.data.message.totalViews,
