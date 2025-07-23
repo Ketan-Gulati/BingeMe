@@ -36,7 +36,7 @@ function SignInBox() {
         </svg>
         <span
           className={clsx(
-            "text-xs sm:text-sm font-medium",
+            "text-xs sm:text-sm font-medium whitespace-nowrap",
             theme === 'dark' ? "text-white" : "text-black"
           )}
         >
