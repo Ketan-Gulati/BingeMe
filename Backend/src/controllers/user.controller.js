@@ -116,7 +116,7 @@ const registerUser = asyncHandler(async(req,res)=>{
     const options = {
         httpOnly: true,
         secure: true,
-        sameSite: 'none'
+        sameSite: "None",
     }
 
     //return response
@@ -167,7 +167,8 @@ const loginUser = asyncHandler(async(req,res)=>{
     //options for cookies
     const options = {
         httpOnly : true,     //using these two options, cookies can't be updated via frontend. And only through server 
-        secure : true
+        secure : true,
+        sameSite: "None",
     }
 
     return res
@@ -237,7 +238,8 @@ const refreshAccessToken = asyncHandler(async(req,res)=>{
     
         const options = {                 // options can be declared globally because they are being used many times
             httpOnly : true,       
-            secure : true
+            secure : true,
+            sameSite: "None",
         }
     
         return res
