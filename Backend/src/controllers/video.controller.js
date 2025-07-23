@@ -124,7 +124,10 @@ const publishAVideo = asyncHandler(async (req, res) => {
   //I have not made thumbnail a compulsory field
 
   const uploadVideo = await uploadOnCloudinary(videoLocalPath);
-  const uploadThumbnail = await uploadOnCloudinary(thumbnailLocalPath);
+  let uploadThumbnail = null
+    if (thumbnailLocalPath) {
+        uploadThumbnail = await uploadOnCloudinary(thumbnailLocalPath)
+    }
 
   if (!uploadVideo) {
     throw new ApiError(400, "Video required");
