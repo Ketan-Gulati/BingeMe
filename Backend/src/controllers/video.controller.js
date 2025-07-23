@@ -137,7 +137,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
     videoFile: uploadVideo.url,
     thumbnail:
       uploadThumbnail?.url ||
-      "https://res.cloudinary.com/dxanpvaub/image/upload/v1747674972/no-image_xaemc2.jpg",
+      "https://res.cloudinary.com/dxanpvaub/image/upload/v1753283140/noThumbnail_h1ixvh.png",
     title,
     description,
     owner: req.user?._id,
