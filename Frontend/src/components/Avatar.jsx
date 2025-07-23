@@ -42,7 +42,7 @@ function Avatar() {
       {/* avatar button or icon */}
       <button
         className={clsx(
-          "flex items-center gap-2 py-2 px-5 rounded-3xl cursor-pointer border",
+          "flex items-center gap-2 py-2 px-5 rounded-3xl cursor-pointer border w-full overflow-hidden",
           theme === 'dark'
             ? "border-[#5B5B5B] hover:bg-[#2c2c2c]"
             : "border-gray-300 hover:bg-gray-100"
@@ -55,7 +55,7 @@ function Avatar() {
           className="w-8 h-8 rounded-full"
         />
         <p className={clsx(
-          "text-sm font-semibold hidden md:block overflow-hidden",
+          "text-sm font-semibold hidden md:block overflow-hidden text-ellipsis whitespace-nowrap max-w-[70px]",
           theme === 'dark' ? "text-white" : "text-black"
         )}>
           {user.userName}
