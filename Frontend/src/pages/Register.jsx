@@ -198,7 +198,7 @@ function Register() {
             <div className="w-full max-w-md bg-[#1a1a1a] p-6 rounded-lg shadow-md text-center">
                 <p className="text-gray-400">
                     Already have an account?{' '}
-                    <Link to="/signin" className="text-blue-500 hover:underline font-medium">
+                    <Link to="/sign-in" className="text-blue-500 hover:underline font-medium">
                         Sign In
                     </Link>
                 </p>
