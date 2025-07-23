@@ -21,7 +21,7 @@ function SidePanel() {
     const dispatch = useDispatch();
     const popup = useSelector((state) => state.popup.isVisible);
     const theme = useSelector((state) => state.theme.theme);
-    const isOpenSideBar = useSelector(state => state.sideBar.isOpen)
+    const isOpenSideBar = useSelector(state => state.sideBar.isOpen);
 
     const handleClick = (featurePath) => (e) => {
         if (!isAuthenticated) {
@@ -46,6 +46,14 @@ function SidePanel() {
                 }} />
             )}
 
+            {/* Background overlay on mobile when sidebar is open */}
+            {isOpenSideBar && (
+                <div
+                    className="fixed inset-0 bg-black/30 backdrop-blur-sm z-30 md:hidden"
+                    onClick={() => dispatch(closeSidebar())}
+                />
+            )}
+
             <div className={clsx(
                 // container classes
                 "h-full fixed md:sticky top-0 left-0 z-40 flex flex-col transition-transform duration-300 overflow-y-auto",
@@ -64,6 +72,7 @@ function SidePanel() {
                 <section className='px-6 py-2 flex flex-col gap-6 flex-1'>
                     <NavLink 
                         to='/Home' 
+                        onClick={() => dispatch(closeSidebar())}
                         className={({ isActive }) =>
                             clsx(
                                 'duration-200 border-b lg:border-0 py-2',
