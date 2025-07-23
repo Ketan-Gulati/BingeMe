@@ -157,6 +157,7 @@ function Header() {
               type='text'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
               className={clsx(
                 'w-full py-2 px-4 focus:outline-none',
                 theme === 'dark' ? 'text-white bg-transparent' : 'text-gray-900'
