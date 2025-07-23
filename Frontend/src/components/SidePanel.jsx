@@ -13,6 +13,7 @@ import Popup from "./Popup.jsx";
 import { hidePopup, showPopup } from "../Redux/slice/popupSlice.js";
 import clsx from 'clsx';
 import { toggleTheme } from "../Redux/slice/themeSlice.js";
+import { closeSidebar } from "../Redux/slice/sideBarSlice.js";
 
 function SidePanel() {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ function SidePanel() {
     const dispatch = useDispatch();
     const popup = useSelector((state) => state.popup.isVisible);
     const theme = useSelector((state) => state.theme.theme);
+    const isOpenSideBar = useSelector(state => state.sideBar.isOpen)
 
     const handleClick = (featurePath) => (e) => {
         if (!isAuthenticated) {
@@ -27,6 +29,7 @@ function SidePanel() {
             dispatch(showPopup());
         } else {
             dispatch(hidePopup());
+            dispatch(closeSidebar());
         }
     };
 
@@ -39,17 +42,26 @@ function SidePanel() {
             {popup && (
                 <Popup onClose={() => {
                     dispatch(hidePopup());
-                    navigate("/", {replace:true});
+                    navigate("/", { replace: true });
                 }} />
             )}
 
             <div className={clsx(
-                'h-full w-70 shadow sticky z-40 flex flex-col',
-                theme === 'dark' ? 'bg-[#121212]' : 'bg-white border-r border-gray-200'
+                // container classes
+                "h-full fixed md:sticky top-0 left-0 z-40 flex flex-col transition-transform duration-300 overflow-y-auto",
+
+                // width classes
+                "w-64 md:w-72 pt-20 md:pt-0",
+
+                // theme background
+                theme === 'dark' ? 'bg-[#121212]' : 'bg-white border-r border-gray-200',
+
+                // show/hide toggle
+                isOpenSideBar ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
             )}>
 
                 {/* Upper section of side panel */}
-                <section className='px-6 py-2 flex flex-col gap-6 flex-1 overflow-y-auto'>
+                <section className='px-6 py-2 flex flex-col gap-6 flex-1'>
                     <NavLink 
                         to='/Home' 
                         className={({ isActive }) =>

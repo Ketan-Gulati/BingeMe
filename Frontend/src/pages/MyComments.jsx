@@ -42,7 +42,7 @@ function MyComments() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center min-h-screen px-4">
         <Loading />
       </div>
     );
@@ -50,7 +50,7 @@ function MyComments() {
 
   if (error) {
     return (
-      <div className={`flex items-center justify-center h-screen text-center font-medium ${
+      <div className={`flex items-center justify-center min-h-screen px-4 text-center font-medium ${
         isDark ? 'text-red-300' : 'text-red-600'
       }`}>
         {error}
@@ -59,42 +59,40 @@ function MyComments() {
   }
 
   return (
-    <div className={`min-h-screen p-4 md:p-8 transition-colors duration-200 ${
-      isDark ? ' text-white' : 'bg-gray-50 text-gray-900'
+    <div className={`min-h-screen px-4 py-6 sm:px-6 md:px-8 transition-colors duration-200 ${
+      isDark ? 'text-white' : 'bg-gray-50 text-gray-900'
     }`}>
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl md:text-3xl font-bold mb-8">My Comments</h1>
+      <div className="max-w-4xl mx-auto w-full">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8">My Comments</h1>
 
         {comments?.length === 0 ? (
-          <div className={`rounded-lg p-8 text-center shadow ${
+          <div className={`rounded-lg px-6 py-8 text-center shadow ${
             isDark ? 'bg-[#2a2a2a]' : 'bg-gray-100'
           }`}>
-            <h3 className={`text-xl font-medium mb-2 ${
+            <h3 className={`text-lg sm:text-xl font-medium mb-2 ${
               isDark ? 'text-gray-200' : 'text-gray-700'
             }`}>No comments yet</h3>
-            <p className={`${
-              isDark ? 'text-gray-400' : 'text-gray-500'
-            }`}>Your comments will appear here</p>
+            <p className={`${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Your comments will appear here</p>
           </div>
         ) : (
           <div className="space-y-6">
             {comments.map((comment) => (
               <div
                 key={comment._id}
-                className={`rounded-lg p-4 md:p-6 transition-colors shadow ${
+                className={`rounded-lg px-4 py-5 sm:p-6 transition-colors shadow ${
                   isDark
                     ? 'bg-[#2a2a2a] hover:bg-[#333333]'
                     : 'bg-white hover:bg-gray-100'
                 }`}
               >
-                <div className="flex items-start gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                   <img
                     src={comment.owner?.avatar}
                     alt="User avatar"
                     className="w-10 h-10 rounded-full object-cover"
                   />
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
                       <span className={`font-semibold ${
                         isDark ? 'text-gray-100' : 'text-gray-900'
                       }`}>

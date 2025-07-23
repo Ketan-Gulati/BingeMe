@@ -17,7 +17,7 @@ function Avatar() {
     try {
       await dispatch(logoutUser()).unwrap();
       dispatch(logout());
-      navigate("/", {replace:true});
+      navigate("/", { replace: true });
       window.location.reload();
     } catch (error) {
       console.error("Logout failed: ", error);
@@ -38,11 +38,17 @@ function Avatar() {
   if (!user) return null;
 
   return (
-    <div className="relative w-[140px] h-[45px]" ref={dropdownRef}>
+    <div
+      className={clsx(
+        "relative",
+        "w-full max-w-[140px] h-[45px] md:w-[140px]", // responsive avatar button container
+      )}
+      ref={dropdownRef}
+    >
       {/* avatar button or icon */}
       <button
         className={clsx(
-          "flex items-center gap-2 py-2 px-5 rounded-3xl cursor-pointer border w-full overflow-hidden",
+          "flex items-center gap-2 py-2 px-4 rounded-3xl cursor-pointer border w-full overflow-hidden",
           theme === 'dark'
             ? "border-[#5B5B5B] hover:bg-[#2c2c2c]"
             : "border-gray-300 hover:bg-gray-100"
@@ -52,12 +58,14 @@ function Avatar() {
         <img
           src={user.avatar}
           alt={user.userName}
-          className="w-8 h-8 rounded-full"
+          className="w-8 h-8 rounded-full object-cover"
         />
-        <p className={clsx(
-          "text-sm font-semibold hidden md:block overflow-hidden text-ellipsis whitespace-nowrap max-w-[70px]",
-          theme === 'dark' ? "text-white" : "text-black"
-        )}>
+        <p
+          className={clsx(
+            "text-sm font-semibold hidden md:block overflow-hidden text-ellipsis whitespace-nowrap max-w-[70px]",
+            theme === 'dark' ? "text-white" : "text-black"
+          )}
+        >
           {user.userName}
         </p>
       </button>
@@ -76,17 +84,23 @@ function Avatar() {
               theme === 'dark' ? "bg-[#1e1e1e]" : "bg-white"
             )}
           >
-            <div className={clsx(
-              "px-4 py-2 border-b",
-              theme === 'dark' ? "text-gray-300 border-gray-700" : "text-gray-700 border-gray-200"
-            )}>
+            <div
+              className={clsx(
+                "px-4 py-2 border-b text-sm",
+                theme === 'dark'
+                  ? "text-gray-300 border-gray-700"
+                  : "text-gray-700 border-gray-200"
+              )}
+            >
               Hello, <strong>{user.fullName}</strong>
             </div>
             <button
               onClick={handleLogout}
               className={clsx(
-                "w-full text-left px-4 py-2 font-medium cursor-pointer",
-                theme === 'dark' ? "hover:bg-[#2c2c2c] text-red-500" : "hover:bg-gray-100 text-red-600"
+                "w-full text-left px-4 py-2 font-medium cursor-pointer text-sm",
+                theme === 'dark'
+                  ? "hover:bg-[#2c2c2c] text-red-500"
+                  : "hover:bg-gray-100 text-red-600"
               )}
             >
               Logout

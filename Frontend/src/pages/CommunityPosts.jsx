@@ -72,12 +72,12 @@ function CommunityPosts() {
   const isDark = theme === 'dark';
 
   return (
-    <div className={`min-h-screen max-w-3xl mx-auto p-4 sm:p-6 lg:p-8 transition-colors duration-200 ${
+    <div className={`min-h-screen w-full px-4 py-6 sm:px-6 lg:px-8 transition-colors duration-200 ${
       isDark ? 'bg-[#121212] text-gray-100' : 'bg-white text-gray-900'
     }`}>
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold flex items-center gap-2 text-blue-500">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2 text-blue-500">
           <FiMessageSquare />
           Community Posts
         </h1>
@@ -93,11 +93,11 @@ function CommunityPosts() {
       {/* Create Post Form */}
       <form
         onSubmit={handleCreatePost}
-        className={`p-5 rounded-xl shadow mb-8 transition-colors duration-200 ${
+        className={`p-4 sm:p-5 rounded-xl shadow mb-8 transition-colors duration-200 ${
           isDark ? 'bg-[#1e1e1e] border border-gray-700' : 'bg-white border border-gray-200'
         }`}
       >
-        <div className="flex items-start gap-3">
+        <div className="flex flex-col sm:flex-row items-start gap-3">
           <FiEdit3 className="text-xl mt-1 text-blue-600" />
           <textarea
             rows={3}
@@ -139,20 +139,20 @@ function CommunityPosts() {
           </div>
         </div>
       ) : posts.length === 0 ? (
-        <div className={`rounded-xl p-10 text-center shadow-md transition-colors duration-200 ${
+        <div className={`rounded-xl p-8 sm:p-10 text-center shadow-md transition-colors duration-200 ${
           isDark ? 'bg-[#1e1e1e]' : 'bg-gray-50'
         }`}>
-          <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4 ${
+          <div className={`mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 ${
             isDark ? 'bg-[#2a2a2a]' : 'bg-gray-200'
           }`}>
-            <FiMessageSquare className={`text-2xl ${
+            <FiMessageSquare className={`text-xl sm:text-2xl ${
               isDark ? 'text-gray-400' : 'text-gray-500'
             }`} />
           </div>
-          <h3 className={`text-lg font-semibold ${
+          <h3 className={`text-base sm:text-lg font-semibold ${
             isDark ? 'text-gray-200' : 'text-gray-700'
           }`}>No posts yet</h3>
-          <p className={`mt-1 ${
+          <p className={`mt-1 text-sm sm:text-base ${
             isDark ? 'text-gray-400' : 'text-gray-500'
           }`}>Be the first to share something with the community</p>
         </div>
@@ -161,11 +161,11 @@ function CommunityPosts() {
           {posts.map(post => (
             <div
               key={post._id}
-              className={`rounded-2xl p-6 shadow hover:shadow-lg transition-all duration-200 ${
+              className={`rounded-2xl p-4 sm:p-6 shadow hover:shadow-lg transition-all duration-200 ${
                 isDark ? 'bg-[#1e1e1e]' : 'bg-white'
               }`}
             >
-              <div className="flex items-start gap-4">
+              <div className="flex flex-col sm:flex-row items-start gap-4">
                 <img
                   src={post.owner.avatar}
                   alt={post.owner.fullName}

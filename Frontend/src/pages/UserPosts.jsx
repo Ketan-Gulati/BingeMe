@@ -70,24 +70,24 @@ function UserPosts() {
     <div className={`max-w-3xl mx-auto p-4 sm:p-6 lg:p-8 transition-colors duration-200 ${
       isDark ? 'text-white' : 'text-gray-900'
     }`}>
-      <h1 className="text-3xl font-bold flex items-center gap-2 text-blue-500 mb-6">
+      <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2 text-blue-500 mb-6">
         <FiMessageSquare />
         My Posts
       </h1>
 
       {userPosts?.length === 0 ? (
-        <div className={`rounded-xl p-10 text-center shadow-md ${
+        <div className={`rounded-xl p-6 sm:p-10 text-center shadow-md ${
           isDark ? 'bg-[#2a2a2a]' : 'bg-gray-100'
         }`}>
-          <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4 ${
+          <div className={`mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 ${
             isDark ? 'bg-[#3a3a3a]' : 'bg-gray-200'
           }`}>
-            <FiMessageSquare className="text-gray-400 text-2xl" />
+            <FiMessageSquare className="text-gray-400 text-xl sm:text-2xl" />
           </div>
-          <h3 className={`text-lg font-semibold ${
+          <h3 className={`text-base sm:text-lg font-semibold ${
             isDark ? 'text-gray-200' : 'text-gray-700'
           }`}>No posts yet</h3>
-          <p className={`mt-1 ${
+          <p className={`mt-1 text-sm sm:text-base ${
             isDark ? 'text-gray-400' : 'text-gray-500'
           }`}>You haven’t shared anything with the community yet.</p>
         </div>
@@ -96,44 +96,42 @@ function UserPosts() {
           {userPosts.map((post) => (
             <div
               key={post._id}
-              className={`rounded-2xl p-6 shadow hover:shadow-lg transition-shadow border relative ${
+              className={`rounded-2xl p-4 sm:p-6 shadow hover:shadow-lg transition-shadow border relative ${
                 isDark ? 'bg-[#1f1f1f] border-gray-700' : 'bg-white border-gray-100'
               }`}
             >
               <button
                 onClick={() => handleDelete(post._id)}
-                className="absolute top-4 right-4 text-red-500 hover:text-red-600 transition"
+                className="absolute top-3 sm:top-4 right-3 sm:right-4 text-red-500 hover:text-red-600 transition"
                 title="Delete post"
               >
                 <FiTrash2 size={18} />
               </button>
 
-              <div className="flex items-start gap-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <img
                   src={post.owner.avatar}
                   alt={post.owner.fullName}
-                  className={`w-12 h-12 rounded-full object-cover border-2 shadow ${
+                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 shadow ${
                     isDark ? 'border-gray-700' : 'border-white'
                   }`}
                 />
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
+                <div className="flex-1 w-full">
+                  <div className="flex flex-wrap items-center gap-2 text-sm">
                     <span className={`font-semibold ${
                       isDark ? 'text-gray-100' : 'text-gray-900'
                     }`}>
                       {post.owner.fullName}
                     </span>
-                    <span className={`text-sm ${
-                      isDark ? 'text-gray-500' : 'text-gray-500'
-                    }`}>@{post.owner.userName}</span>
-                    <span className={`flex items-center text-sm gap-1 ${
+                    <span className="text-gray-500">@{post.owner.userName}</span>
+                    <span className={`flex items-center gap-1 ${
                       isDark ? 'text-gray-500' : 'text-gray-400'
                     }`}>
                       <FiClock size={14} />
                       {formatDate(post.createdAt)}
                     </span>
                   </div>
-                  <p className={`mt-2 ${
+                  <p className={`mt-2 text-sm sm:text-base ${
                     isDark ? 'text-gray-200' : 'text-gray-800'
                   }`}>{post.content}</p>
                 </div>

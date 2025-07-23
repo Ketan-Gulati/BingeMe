@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchCurrentUser } from '../../Redux/slice/authSlice';
 import Avatar from '../Avatar';
 import SignInBox from '../SignInBox';
-import { toggleCompact, toggleMobile } from '../../Redux/slice/hamburgerSlice';
 import { IoSearch } from "react-icons/io5";
 import clsx from 'clsx';
 import { hidePopup, showPopup } from '../../Redux/slice/popupSlice';
 import Popup from '../Popup';
 import { fetchVideos } from '../../Redux/slice/videoSlice';
+import { toggleOpen } from '../../Redux/slice/sideBarSlice';
 
 function Header() {
   const theme = useSelector((state) => state.theme.theme);
@@ -18,18 +18,11 @@ function Header() {
   const { loading, isLoggedIn } = useSelector((state) => state.auth);
   const popup = useSelector((state) => state.popup.isVisible);
   const [searchQuery, setSearchQuery] = useState('');
+  const isOpenSideBar = useSelector(state=>state.sideBar.isOpen)
 
   useEffect(() => {
     dispatch(fetchCurrentUser());
   }, [dispatch]);
-
-  const handleHamburgerClick = () => {
-    if (window.innerWidth >= 1024) {
-      dispatch(toggleCompact());
-    } else {
-      dispatch(toggleMobile());
-    }
-  };
 
   const handleClick = (e) => {
     if (!isLoggedIn) {
@@ -49,6 +42,10 @@ function Header() {
     if (e.key === 'Enter') handleSearch();
   };
 
+  const handleSideBar = ()=>{
+    dispatch(toggleOpen());
+  }
+
   return (
     <header className={clsx(
       'w-full shadow sticky top-0 z-50',
@@ -66,8 +63,8 @@ function Header() {
           {/* Left section - hamburger and logo */}
           <div className='flex items-center gap-4'>
             <button 
-              onClick={handleHamburgerClick} 
-              className='cursor-pointer'
+              onClick={handleSideBar} 
+              className='block lg:hidden cursor-pointer'
               aria-label="Toggle menu"
             >
               <svg 

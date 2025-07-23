@@ -62,7 +62,7 @@ function Register() {
             if (coverImage) formDataObj.append('coverImage', coverImage);
 
             await dispatch(registerUser(formDataObj)).unwrap();
-            navigate('/', {replace:true});
+            navigate('/', { replace: true });
         } catch (err) {
             if (err.payload?.status === 409) {
                 setError("Username or email already exists");
@@ -75,16 +75,16 @@ function Register() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col gap-4 items-center justify-center bg-[#121212] px-4">
-            <form onSubmit={handleSubmit} className="bg-[#1a1a1a] p-8 rounded-lg shadow-md w-full max-w-md">
-                <h2 className="text-2xl font-semibold mb-2 text-center text-white">Welcome to BingeMe</h2>
-                <p className="text-gray-400 text-center mb-6">Create your account</p>
+        <div className="min-h-screen flex flex-col gap-4 items-center justify-center bg-[#121212] px-4 sm:px-6 py-6">
+            <form onSubmit={handleSubmit} className="bg-[#1a1a1a] p-6 sm:p-8 rounded-lg shadow-md w-full max-w-md">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-2 text-center text-white">Welcome to BingeMe</h2>
+                <p className="text-sm sm:text-base text-gray-400 text-center mb-6">Create your account</p>
 
                 {error && <div className="mb-4 p-2 bg-red-500/20 text-red-400 rounded text-sm">{error}</div>}
 
                 {/* Full Name */}
                 <div className="mb-4">
-                    <label className="block text-gray-300 font-medium mb-2" htmlFor={`${id}-fullName`}>Full Name *</label>
+                    <label className="block text-gray-300 font-medium mb-2 text-sm sm:text-base" htmlFor={`${id}-fullName`}>Full Name *</label>
                     <input
                         id={`${id}-fullName`}
                         name="fullName"
@@ -92,14 +92,14 @@ function Register() {
                         value={formData.fullName}
                         onChange={handleChange}
                         placeholder="Enter your full name"
-                        className="w-full px-4 py-2 bg-transparent text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 bg-transparent text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                         required
                     />
                 </div>
 
                 {/* Username */}
                 <div className="mb-4">
-                    <label className="block text-gray-300 font-medium mb-2" htmlFor={`${id}-userName`}>Username *</label>
+                    <label className="block text-gray-300 font-medium mb-2 text-sm sm:text-base" htmlFor={`${id}-userName`}>Username *</label>
                     <input
                         id={`${id}-userName`}
                         name="userName"
@@ -108,14 +108,14 @@ function Register() {
                         value={formData.userName}
                         onChange={handleChange}
                         placeholder="Choose a username"
-                        className="w-full px-4 py-2 bg-transparent text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 bg-transparent text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                         required
                     />
                 </div>
 
                 {/* Email */}
                 <div className="mb-4">
-                    <label className="block text-gray-300 font-medium mb-2" htmlFor={`${id}-email`}>Email *</label>
+                    <label className="block text-gray-300 font-medium mb-2 text-sm sm:text-base" htmlFor={`${id}-email`}>Email *</label>
                     <input
                         id={`${id}-email`}
                         name="email"
@@ -123,14 +123,14 @@ function Register() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Enter your email"
-                        className="w-full px-4 py-2 bg-transparent text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 bg-transparent text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                         required
                     />
                 </div>
 
                 {/* Password */}
                 <div className="mb-4">
-                    <label className="block text-gray-300 font-medium mb-2" htmlFor={`${id}-password`}>Password *</label>
+                    <label className="block text-gray-300 font-medium mb-2 text-sm sm:text-base" htmlFor={`${id}-password`}>Password *</label>
                     <input
                         id={`${id}-password`}
                         name="password"
@@ -139,19 +139,19 @@ function Register() {
                         value={formData.password}
                         onChange={handleChange}
                         placeholder="Create a password"
-                        className="w-full px-4 py-2 bg-transparent text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 bg-transparent text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                         required
                     />
                 </div>
 
                 {/* Avatar */}
                 <div className="mb-4">
-                    <label className="block text-gray-300 font-medium mb-2">Profile Picture *</label>
+                    <label className="block text-gray-300 font-medium mb-2 text-sm sm:text-base">Profile Picture *</label>
                     <input
                         type="file"
                         accept="image/*"
                         onChange={(e) => handleFileChange(e, setAvatar, setAvatarPreview)}
-                        className="w-full text-gray-200 px-4 py-2 bg-[#1f1f1f] border border-gray-600 rounded-lg mb-2"
+                        className="w-full text-gray-200 px-4 py-2 bg-[#1f1f1f] border border-gray-600 rounded-lg mb-2 text-sm"
                         required
                     />
                     {avatarPreview && (
@@ -163,16 +163,16 @@ function Register() {
 
                 {/* Cover Image */}
                 <div className="mb-6">
-                    <label className="block text-gray-300 font-medium mb-2">Cover Image (Optional)</label>
+                    <label className="block text-gray-300 font-medium mb-2 text-sm sm:text-base">Cover Image (Optional)</label>
                     <input
                         type="file"
                         accept="image/*"
                         onChange={(e) => handleFileChange(e, setCoverImage, setCoverImagePreview)}
-                        className="w-full text-gray-200 px-4 py-2 bg-[#1f1f1f] border border-gray-600 rounded-lg mb-2"
+                        className="w-full text-gray-200 px-4 py-2 bg-[#1f1f1f] border border-gray-600 rounded-lg mb-2 text-sm"
                     />
                     {coverImagePreview && (
                         <div className="mt-2">
-                            <img src={coverImagePreview} alt="Cover preview" className="w-full h-32 rounded-lg object-cover border border-gray-600" />
+                            <img src={coverImagePreview} alt="Cover preview" className="w-full h-32 sm:h-40 rounded-lg object-cover border border-gray-600" />
                         </div>
                     )}
                 </div>
@@ -181,7 +181,7 @@ function Register() {
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className={`w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    className={`w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
                 >
                     {isLoading ? (
                         <span className="flex items-center justify-center">
@@ -195,8 +195,8 @@ function Register() {
                 </button>
             </form>
 
-            <div className="w-full max-w-md bg-[#1a1a1a] p-6 rounded-lg shadow-md text-center">
-                <p className="text-gray-400">
+            <div className="w-full max-w-md bg-[#1a1a1a] p-4 sm:p-6 rounded-lg shadow-md text-center mt-4">
+                <p className="text-sm sm:text-base text-gray-400">
                     Already have an account?{' '}
                     <Link to="/sign-in" className="text-blue-500 hover:underline font-medium">
                         Sign In

@@ -77,10 +77,10 @@ const PrivateChannelProfile = () => {
       </div>
 
       {/* Channel Info */}
-      <div className="px-6 pb-6 relative">
+      <div className="px-4 sm:px-6 pb-6 relative">
         <div className="flex flex-col md:flex-row items-start md:items-end gap-6 -mt-16">
           {/* Avatar */}
-          <div className="w-32 h-32 rounded-full border-4 border-white dark:border-[#121212] overflow-hidden">
+          <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white dark:border-[#121212] overflow-hidden">
             <img
               src={channelData.avatar}
               alt="Channel avatar"
@@ -90,8 +90,8 @@ const PrivateChannelProfile = () => {
 
           {/* Metadata */}
           <div className="flex-1">
-            <h1 className="text-2xl font-bold">{channelData.fullName}</h1>
-            <p className="text-gray-600 dark:text-gray-300">@{channelData.userName}</p>
+            <h1 className="text-xl sm:text-2xl font-bold">{channelData.fullName}</h1>
+            <p className="text-gray-600 dark:text-gray-300 break-all">@{channelData.userName}</p>
 
             <div className="flex flex-wrap gap-6 mt-4">
               <div className="flex flex-col">
@@ -116,8 +116,8 @@ const PrivateChannelProfile = () => {
       </div>
 
       {/* Videos */}
-      <div className="px-6 pb-12">
-        <h2 className="text-xl font-bold mb-6">Your Videos</h2>
+      <div className="px-4 sm:px-6 pb-12">
+        <h2 className="text-lg sm:text-xl font-bold mb-6">Your Videos</h2>
         {videos?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {videos.map(video => (
@@ -136,12 +136,12 @@ const PrivateChannelProfile = () => {
             ))}
           </div>
         ) : (
-          <div className={`rounded-lg p-12 text-center border ${theme === 'dark' ? 'bg-[#1e1e1e] border-gray-700 text-white' : 'bg-white border-gray-200 text-gray-900'}`}>
-            <svg className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className={`rounded-lg p-6 sm:p-12 text-center border ${theme === 'dark' ? 'bg-[#1e1e1e] border-gray-700 text-white' : 'bg-white border-gray-200 text-gray-900'}`}>
+            <svg className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
-            <h3 className="mt-4 text-lg font-semibold">No videos uploaded yet</h3>
-            <p className="mt-1 text-gray-500 dark:text-gray-400">Upload your first video to get started</p>
+            <h3 className="mt-4 text-base sm:text-lg font-semibold">No videos uploaded yet</h3>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Upload your first video to get started</p>
           </div>
         )}
       </div>
