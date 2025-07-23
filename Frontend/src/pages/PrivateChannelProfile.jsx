@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../utils/axios';
 import VideoCard from '../components/VideoCard';
 import Loading from '../components/Loading';
 import { useSelector } from 'react-redux';
@@ -26,9 +26,9 @@ const PrivateChannelProfile = () => {
       try {
         setLoading(true);
         const [profileRes, statsRes, videosRes] = await Promise.all([
-          axios.get('/v1/users/current-user'),
-          axios.get('/v1/dashboard/stats'),
-          axios.get('/v1/dashboard/videos?includeUnpublished=true'),
+          axiosInstance.get('/users/current-user'),
+          axiosInstance.get('/dashboard/stats'),
+          axiosInstance.get('/dashboard/videos?includeUnpublished=true'),
         ]);
 
         setChannelData({

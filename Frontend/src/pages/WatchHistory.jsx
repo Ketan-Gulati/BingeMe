@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../utils/axios';
 import Loading from '../components/Loading';
 import { Link } from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
@@ -24,7 +24,7 @@ function WatchHistory() {
     const fetchHistory = async () => {
       setLoading(true);
       try {
-        const res = await axios.get('/v1/users/history', { withCredentials: true });
+        const res = await axiosInstance.get('/users/history', { withCredentials: true });
         setWatchHist(res.data.message);
       } catch (err) {
         console.error("Error fetching watch history: ", err);

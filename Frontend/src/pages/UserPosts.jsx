@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../utils/axios';
 import Loading from '../components/Loading';
 import { useParams } from 'react-router-dom';
 import { FiMessageSquare, FiClock, FiTrash2 } from 'react-icons/fi';
@@ -18,7 +18,7 @@ function UserPosts() {
     const getUserPosts = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`/v1/communityPost/user/${userId}`, { withCredentials: true });
+        const res = await axiosInstance.get(`/communityPost/user/${userId}`, { withCredentials: true });
         setUserPosts(res.data.message);
       } catch (error) {
         console.error("Failed to fetch user's posts: ", error);
@@ -42,7 +42,7 @@ function UserPosts() {
 
   const handleDelete = async (postId) => {
     try {
-      await axios.delete(`/v1/communityPost/${postId}`);
+      await axiosInstance.delete(`/communityPost/${postId}`);
       setUserPosts(prev => prev.filter(p => p._id !== postId));
     } catch (error) {
       console.error("Failed to delete post: ", error);

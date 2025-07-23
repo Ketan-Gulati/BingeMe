@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../utils/axios';
 import React, { useId, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -32,7 +32,7 @@ function UploadVideo() {
     if (thumbnail) formData.append('thumbnail', thumbnail);
 
     try {
-      const res = await axios.post('/v1/videos/publish-video', formData, {
+      const res = await axiosInstance.post('/videos/publish-video', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true
       });

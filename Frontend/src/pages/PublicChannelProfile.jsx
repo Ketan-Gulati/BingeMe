@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../utils/axios';
 import VideoCard from '../components/VideoCard';
 import Loading from '../components/Loading';
 
@@ -21,7 +21,7 @@ const PublicChannelProfile = () => {
     const fetchChannelData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/v1/users/c/${userName}`);
+        const response = await axiosInstance.get(`/users/c/${userName}`);
         const { data } = response.data.message;
         
         setChannelData({
@@ -45,7 +45,7 @@ const PublicChannelProfile = () => {
 
   const handleSubscription = async () => {
     try {
-      const response = await axios.post(`/v1/subscriptions/c/${channelData._id}`);
+      const response = await axiosInstance.post(`/subscriptions/c/${channelData._id}`);
       setChannelData(prev => ({
         ...prev,
         isSubscribed: !prev.isSubscribed,

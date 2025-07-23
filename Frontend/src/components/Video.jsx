@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../utils/axios';
 import { useParams } from 'react-router-dom';
 import Loading from './Loading';
 
@@ -15,7 +15,7 @@ function Video() {
     const fetchVideo = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`/v1/videos/${videoId}`);
+        const res = await axiosInstance.get(`/videos/${videoId}`);
         setVideo(res.data.message);
       } catch (error) {
         console.error("Failed to load video", error);
@@ -30,7 +30,7 @@ function Video() {
 
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`/v1/comments/${videoId}`);
+      const res = await axiosInstance.get(`/comments/${videoId}`);
       setComments(res.data.message.comments);
     } catch (error) {
       console.error("Failed to fetch comments", error);
@@ -43,7 +43,7 @@ function Video() {
 
     setCommentLoading(true);
     try {
-      await axios.post(`/v1/comments/${videoId}`, { content: newComment });
+      await axiosInstance.post(`/comments/${videoId}`, { content: newComment });
       setNewComment("");
       await fetchComments();
     } catch (error) {

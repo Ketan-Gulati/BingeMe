@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../utils/axios';
 import Loading from '../components/Loading';
 import { FiMessageSquare, FiUser, FiClock, FiEdit3 } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +21,7 @@ function CommunityPosts() {
     const fetchPosts = async () => {
       setLoading(true);
       try {
-        const res = await axios.get('/v1/communityPost/', { withCredentials: true });
+        const res = await axiosInstance.get('/communityPost/', { withCredentials: true });
         setPosts(res.data.message.posts);
       } catch (error) {
         console.error("Failed to fetch posts: ", error);
@@ -49,8 +49,8 @@ function CommunityPosts() {
 
     setCreating(true);
     try {
-      const res = await axios.post(
-        '/v1/communityPost/createPost',
+      const res = await axiosInstance.post(
+        '/communityPost/createPost',
         { content: newPostContent },
         { withCredentials: true }
       );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../utils/axios';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 
@@ -48,7 +48,7 @@ function VideoCard({ id, thumbnail, title, duration, views, owner, createdAt, de
 
   // Navigate to video detail page
   const handleClick = async () => {
-    await axios.patch(`/v1/videos/${id}`);
+    await axiosInstance.patch(`/videos/${id}`);
     navigate(`/video/${id}`);
   };
 
@@ -56,7 +56,7 @@ function VideoCard({ id, thumbnail, title, duration, views, owner, createdAt, de
   const handleDelete = async (e) => {
     e.stopPropagation(); // Prevent navigation
     try {
-      await axios.delete(`/v1/videos/${id}`);
+      await axiosInstance.delete(`/videos/${id}`);
       if (onDelete) onDelete(id); // Callback to remove from UI
     } catch (error) {
       console.error("Error while deleting video: ", error);

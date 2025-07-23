@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../../utils/axios";
 
 // Helper function to check if token cookie exists
 const hasTokenCookie = () => {
@@ -25,7 +25,7 @@ export const fetchCurrentUser = createAsyncThunk(
   "auth/fetchCurrentUser",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get("/v1/users/current-user", { 
+      const res = await axiosInstance.get("/users/current-user", { 
         withCredentials: true 
       });
       return res.data.message;
@@ -39,7 +39,7 @@ export const loginUser = createAsyncThunk(
     "auth/loginUser",
     async({email, userName, password}, { rejectWithValue }) => {
         try {
-            const res = await axios.post("/v1/users/login", {email, userName, password}, {withCredentials: true});
+            const res = await axiosInstance.post("/users/login", {email, userName, password}, {withCredentials: true});
             return res.data.message;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Login failed");
@@ -51,7 +51,7 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (formData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post('/v1/users/register', formData, {
+      const { data } = await axiosInstance.post('/users/register', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true
       });
@@ -69,7 +69,7 @@ export const logoutUser = createAsyncThunk(
     "auth/logoutUser",
     async(_, { rejectWithValue }) => {
         try {
-            const res = await axios.post("/v1/users/logout", {}, {withCredentials: true});
+            const res = await axiosInstance.post("/users/logout", {}, {withCredentials: true});
             return res.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Logout failed");

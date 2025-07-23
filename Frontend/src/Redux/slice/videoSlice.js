@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axiosInstance from '../../utils/axios';
 
 export const fetchVideos = createAsyncThunk(
   'videos/fetchVideos',
   async ({ searchQuery = '', page = 1, limit = 20, sortBy = 'createdAt', sortType = 'desc' }) => {
-    const res = await axios.get('/v1/videos/', {
+    const res = await axiosInstance.get('/videos/', {
       params: {
         searchQuery,
         page,

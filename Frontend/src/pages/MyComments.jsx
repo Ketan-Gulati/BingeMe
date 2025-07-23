@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../utils/axios';
 import { Link } from 'react-router-dom';
 import Loading from '../components/Loading';
 import { useSelector } from 'react-redux';
@@ -17,7 +17,7 @@ function MyComments() {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get('/v1/comments/get-comments');
+        const res = await axiosInstance.get('/comments/get-comments');
         setComments(res.data.message.comments);
       } catch (error) {
         console.error("Failed to fetch comments: ", error);
