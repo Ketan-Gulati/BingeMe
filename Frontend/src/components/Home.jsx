@@ -25,7 +25,12 @@ function Home() {
     }
 
     // Initial video fetch
-    dispatch(fetchVideos({}));
+    const query = location.state?.searchQuery;
+    if (query) {
+      dispatch(fetchVideos({ searchQuery: query }));
+    } else {
+      dispatch(fetchVideos({})); // Load all
+    }
   }, [location, isLoggedIn, dispatch]);
 
 

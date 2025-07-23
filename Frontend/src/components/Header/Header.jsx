@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchCurrentUser } from '../../Redux/slice/authSlice';
 import Avatar from '../Avatar';
@@ -19,6 +19,7 @@ function Header() {
   const popup = useSelector((state) => state.popup.isVisible);
   const [searchQuery, setSearchQuery] = useState('');
   const isOpenSideBar = useSelector(state=>state.sideBar.isOpen)
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchCurrentUser());
@@ -32,11 +33,19 @@ function Header() {
   };
 
   const handleSearch = () => {
-    // Only search if there's a query or reset to show all videos
-    dispatch(fetchVideos({ 
-      searchQuery: searchQuery.trim()
-    }));
-  };
+    const trimmed = searchQuery.trim();
+    if (!trimmed) return;
+    if (location.pathname !== '/') {
+      // Navigate first, then fetch after transition
+      navigate('/', {
+        state: { searchQuery: trimmed }
+      });
+    } else {
+      // Already on home page, just fetch
+      dispatch(fetchVideos({ searchQuery: trimmed }));
+    }
+};
+
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') handleSearch();
