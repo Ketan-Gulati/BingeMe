@@ -55,7 +55,7 @@ function Avatar() {
           className="w-8 h-8 rounded-full"
         />
         <p className={clsx(
-          "text-sm font-semibold hidden md:block",
+          "text-sm font-semibold hidden md:block overflow-hidden",
           theme === 'dark' ? "text-white" : "text-black"
         )}>
           {user.userName}
