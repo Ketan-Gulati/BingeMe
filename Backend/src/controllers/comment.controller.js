@@ -4,6 +4,7 @@ import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 import { User } from "../models/user.models.js"
+import {Video} from "../models/video.models.js"
 
 //status:working
 const getVideoComments = asyncHandler(async (req, res) => {
@@ -145,15 +146,19 @@ const getUserComments = asyncHandler(async (req, res) => {
   const skip = (page - 1) * limit;
 
   const userComments = await Comment.find({ owner: userId })
-    .populate("owner", "userName avatar")  
+    .populate("owner", "userName avatar")
+    .populate("video", "_id isPublished") 
     .sort({ createdAt: -1 })               // latest comments first
     .skip(skip)
     .limit(limit);
 
+
+  const activeComments = userComments.filter(comment => comment.video !== null);
+
   const totalComments = await Comment.countDocuments({ owner: userId });
 
   return res.status(200).json(
-    new ApiResponse(200, { comments: userComments, totalComments }, "User's comments fetched")
+    new ApiResponse(200, { comments: activeComments, totalComments }, "User's comments fetched")
   );
 });
 
