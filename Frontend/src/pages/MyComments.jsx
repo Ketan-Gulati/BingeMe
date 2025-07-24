@@ -111,7 +111,7 @@ function MyComments() {
                     </p>
 
                     <Link
-                      to={`/video/${comment.video}`}
+                      to={`/video/${comment.video._id}`}
                       className={`inline-flex items-center font-medium ${
                         isDark
                           ? 'text-blue-400 hover:text-blue-300'
