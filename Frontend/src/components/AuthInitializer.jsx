@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentUser } from "../Redux/slice/authSlice";
+import Loading from "./Loading";
 
 const AuthInitializer = ({ children }) => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const AuthInitializer = ({ children }) => {
   if (!initialized && loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Checking authentication...</div>
+        <div className="text-lg"><Loading/></div>
       </div>
     );
   }
