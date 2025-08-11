@@ -14,9 +14,7 @@ function Layout() {
         <div className="flex flex-1 overflow-hidden">
           <SidePanel />
           <main
-            className={`flex-1 overflow-y-auto bg-[#1E1E1E] ${
-              isDark ? " text-white" : "bg-white text-gray-900"
-            }`}
+            className={`flex-1 overflow-y-auto bg-[#1E1E1E] ${isDark ? " text-white" : "bg-white text-gray-900"}`}
           >
             <Outlet />
           </main>
